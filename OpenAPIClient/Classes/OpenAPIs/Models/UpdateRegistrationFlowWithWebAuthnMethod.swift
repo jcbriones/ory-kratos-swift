@@ -19,15 +19,18 @@ public struct UpdateRegistrationFlowWithWebAuthnMethod: Codable, JSONEncodable, 
     public var method: String
     /** The identity's traits */
     public var traits: AnyCodable
+    /** Transient data to pass along to any webhooks */
+    public var transientPayload: AnyCodable?
     /** Register a WebAuthn Security Key  It is expected that the JSON returned by the WebAuthn registration process is included here. */
     public var webauthnRegister: String?
     /** Name of the WebAuthn Security Key to be Added  A human-readable name for the security key which will be added. */
     public var webauthnRegisterDisplayname: String?
 
-    public init(csrfToken: String? = nil, method: String, traits: AnyCodable, webauthnRegister: String? = nil, webauthnRegisterDisplayname: String? = nil) {
+    public init(csrfToken: String? = nil, method: String, traits: AnyCodable, transientPayload: AnyCodable? = nil, webauthnRegister: String? = nil, webauthnRegisterDisplayname: String? = nil) {
         self.csrfToken = csrfToken
         self.method = method
         self.traits = traits
+        self.transientPayload = transientPayload
         self.webauthnRegister = webauthnRegister
         self.webauthnRegisterDisplayname = webauthnRegisterDisplayname
     }
@@ -36,6 +39,7 @@ public struct UpdateRegistrationFlowWithWebAuthnMethod: Codable, JSONEncodable, 
         case csrfToken = "csrf_token"
         case method
         case traits
+        case transientPayload = "transient_payload"
         case webauthnRegister = "webauthn_register"
         case webauthnRegisterDisplayname = "webauthn_register_displayname"
     }
@@ -47,6 +51,7 @@ public struct UpdateRegistrationFlowWithWebAuthnMethod: Codable, JSONEncodable, 
         try container.encodeIfPresent(csrfToken, forKey: .csrfToken)
         try container.encode(method, forKey: .method)
         try container.encode(traits, forKey: .traits)
+        try container.encodeIfPresent(transientPayload, forKey: .transientPayload)
         try container.encodeIfPresent(webauthnRegister, forKey: .webauthnRegister)
         try container.encodeIfPresent(webauthnRegisterDisplayname, forKey: .webauthnRegisterDisplayname)
     }

@@ -13,46 +13,17 @@ import AnyCodable
 /** Is sent when a flow is replaced by a different flow of the same class */
 public struct ErrorFlowReplaced: Codable, JSONEncodable, Hashable {
 
-    /** The status code */
-    public var code: Int64?
-    /** Debug information  This field is often not exposed to protect against leaking sensitive information. */
-    public var debug: String?
-    /** Further error details */
-    public var details: [String: AnyCodable]?
-    /** The error ID  Useful when trying to identify various errors in application logic. */
-    public var id: String?
-    /** Error message  The error's message. */
-    public var message: String
-    /** A human-readable reason for the error */
-    public var reason: String?
-    /** The request ID  The request ID is often exposed internally in order to trace errors across service architectures. This is often a UUID. */
-    public var request: String?
-    /** The status description */
-    public var status: String?
+    public var error: GenericError?
     /** The flow ID that should be used for the new flow as it contains the correct messages. */
     public var useFlowId: String?
 
-    public init(code: Int64? = nil, debug: String? = nil, details: [String: AnyCodable]? = nil, id: String? = nil, message: String, reason: String? = nil, request: String? = nil, status: String? = nil, useFlowId: String? = nil) {
-        self.code = code
-        self.debug = debug
-        self.details = details
-        self.id = id
-        self.message = message
-        self.reason = reason
-        self.request = request
-        self.status = status
+    public init(error: GenericError? = nil, useFlowId: String? = nil) {
+        self.error = error
         self.useFlowId = useFlowId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case code
-        case debug
-        case details
-        case id
-        case message
-        case reason
-        case request
-        case status
+        case error
         case useFlowId = "use_flow_id"
     }
 
@@ -60,14 +31,7 @@ public struct ErrorFlowReplaced: Codable, JSONEncodable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(code, forKey: .code)
-        try container.encodeIfPresent(debug, forKey: .debug)
-        try container.encodeIfPresent(details, forKey: .details)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encode(message, forKey: .message)
-        try container.encodeIfPresent(reason, forKey: .reason)
-        try container.encodeIfPresent(request, forKey: .request)
-        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(error, forKey: .error)
         try container.encodeIfPresent(useFlowId, forKey: .useFlowId)
     }
 }

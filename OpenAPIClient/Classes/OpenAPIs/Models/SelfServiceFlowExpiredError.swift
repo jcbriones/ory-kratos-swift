@@ -13,54 +13,25 @@ import AnyCodable
 /** Is sent when a flow is expired */
 public struct SelfServiceFlowExpiredError: Codable, JSONEncodable, Hashable {
 
-    /** The status code */
-    public var code: Int64?
-    /** Debug information  This field is often not exposed to protect against leaking sensitive information. */
-    public var debug: String?
-    /** Further error details */
-    public var details: [String: AnyCodable]?
+    public var error: GenericError?
     /** When the flow has expired */
     public var expiredAt: Date?
-    /** The error ID  Useful when trying to identify various errors in application logic. */
-    public var id: String?
-    /** Error message  The error's message. */
-    public var message: String
-    /** A human-readable reason for the error */
-    public var reason: String?
-    /** The request ID  The request ID is often exposed internally in order to trace errors across service architectures. This is often a UUID. */
-    public var request: String?
     /** A Duration represents the elapsed time between two instants as an int64 nanosecond count. The representation limits the largest representable duration to approximately 290 years. */
     public var since: Int64?
-    /** The status description */
-    public var status: String?
     /** The flow ID that should be used for the new flow as it contains the correct messages. */
     public var useFlowId: String?
 
-    public init(code: Int64? = nil, debug: String? = nil, details: [String: AnyCodable]? = nil, expiredAt: Date? = nil, id: String? = nil, message: String, reason: String? = nil, request: String? = nil, since: Int64? = nil, status: String? = nil, useFlowId: String? = nil) {
-        self.code = code
-        self.debug = debug
-        self.details = details
+    public init(error: GenericError? = nil, expiredAt: Date? = nil, since: Int64? = nil, useFlowId: String? = nil) {
+        self.error = error
         self.expiredAt = expiredAt
-        self.id = id
-        self.message = message
-        self.reason = reason
-        self.request = request
         self.since = since
-        self.status = status
         self.useFlowId = useFlowId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case code
-        case debug
-        case details
+        case error
         case expiredAt = "expired_at"
-        case id
-        case message
-        case reason
-        case request
         case since
-        case status
         case useFlowId = "use_flow_id"
     }
 
@@ -68,16 +39,9 @@ public struct SelfServiceFlowExpiredError: Codable, JSONEncodable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(code, forKey: .code)
-        try container.encodeIfPresent(debug, forKey: .debug)
-        try container.encodeIfPresent(details, forKey: .details)
+        try container.encodeIfPresent(error, forKey: .error)
         try container.encodeIfPresent(expiredAt, forKey: .expiredAt)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encode(message, forKey: .message)
-        try container.encodeIfPresent(reason, forKey: .reason)
-        try container.encodeIfPresent(request, forKey: .request)
         try container.encodeIfPresent(since, forKey: .since)
-        try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(useFlowId, forKey: .useFlowId)
     }
 }

@@ -12,6 +12,8 @@ import AnyCodable
 
 public struct TokenPagination: Codable, JSONEncodable, Hashable {
 
+    static let pageSizeRule = NumericRule<Int64>(minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
+    static let pageTokenRule = StringRule(minLength: nil, maxLength: nil, pattern: nil)
     /** Items per page  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). */
     public var pageSize: Int64? = 250
     /** Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). */

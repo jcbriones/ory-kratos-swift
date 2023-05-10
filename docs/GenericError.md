@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code** | **Int64** | The status code | [optional] 
 **debug** | **String** | Debug information  This field is often not exposed to protect against leaking sensitive information. | [optional] 
-**details** | [**AnyCodable**](.md) | Further error details | [optional] 
+**details** | **AnyCodable** | Further error details | [optional] 
 **id** | **String** | The error ID  Useful when trying to identify various errors in application logic. | [optional] 
 **message** | **String** | Error message  The error&#39;s message. | 
 **reason** | **String** | A human-readable reason for the error | [optional] 

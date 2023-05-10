@@ -26,6 +26,7 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*CourierAPI* | [**getCourierMessage**](docs/CourierAPI.md#getcouriermessage) | **GET** /admin/courier/messages/{id} | Get a Message
 *CourierAPI* | [**listCourierMessages**](docs/CourierAPI.md#listcouriermessages) | **GET** /admin/courier/messages | List Messages
 *FrontendAPI* | [**createBrowserLoginFlow**](docs/FrontendAPI.md#createbrowserloginflow) | **GET** /self-service/login/browser | Create Login Flow for Browsers
 *FrontendAPI* | [**createBrowserLogoutFlow**](docs/FrontendAPI.md#createbrowserlogoutflow) | **GET** /self-service/logout/browser | Create a Logout URL for Browsers
@@ -56,16 +57,18 @@ Class | Method | HTTP request | Description
 *FrontendAPI* | [**updateRegistrationFlow**](docs/FrontendAPI.md#updateregistrationflow) | **POST** /self-service/registration | Update Registration Flow
 *FrontendAPI* | [**updateSettingsFlow**](docs/FrontendAPI.md#updatesettingsflow) | **POST** /self-service/settings | Complete Settings Flow
 *FrontendAPI* | [**updateVerificationFlow**](docs/FrontendAPI.md#updateverificationflow) | **POST** /self-service/verification | Complete Verification Flow
+*IdentityAPI* | [**batchPatchIdentities**](docs/IdentityAPI.md#batchpatchidentities) | **PATCH** /admin/identities | Create and deletes multiple identities
 *IdentityAPI* | [**createIdentity**](docs/IdentityAPI.md#createidentity) | **POST** /admin/identities | Create an Identity
 *IdentityAPI* | [**createRecoveryCodeForIdentity**](docs/IdentityAPI.md#createrecoverycodeforidentity) | **POST** /admin/recovery/code | Create a Recovery Code
 *IdentityAPI* | [**createRecoveryLinkForIdentity**](docs/IdentityAPI.md#createrecoverylinkforidentity) | **POST** /admin/recovery/link | Create a Recovery Link
 *IdentityAPI* | [**deleteIdentity**](docs/IdentityAPI.md#deleteidentity) | **DELETE** /admin/identities/{id} | Delete an Identity
+*IdentityAPI* | [**deleteIdentityCredentials**](docs/IdentityAPI.md#deleteidentitycredentials) | **DELETE** /admin/identities/{id}/credentials/{type} | Delete a credential for a specific identity
 *IdentityAPI* | [**deleteIdentitySessions**](docs/IdentityAPI.md#deleteidentitysessions) | **DELETE** /admin/identities/{id}/sessions | Delete &amp; Invalidate an Identity&#39;s Sessions
 *IdentityAPI* | [**disableSession**](docs/IdentityAPI.md#disablesession) | **DELETE** /admin/sessions/{id} | Deactivate a Session
 *IdentityAPI* | [**extendSession**](docs/IdentityAPI.md#extendsession) | **PATCH** /admin/sessions/{id}/extend | Extend a Session
 *IdentityAPI* | [**getIdentity**](docs/IdentityAPI.md#getidentity) | **GET** /admin/identities/{id} | Get an Identity
 *IdentityAPI* | [**getIdentitySchema**](docs/IdentityAPI.md#getidentityschema) | **GET** /schemas/{id} | Get Identity JSON Schema
-*IdentityAPI* | [**getSession**](docs/IdentityAPI.md#getsession) | **GET** /admin/sessions/{id} | This endpoint returns the session object with expandables specified.
+*IdentityAPI* | [**getSession**](docs/IdentityAPI.md#getsession) | **GET** /admin/sessions/{id} | Get Session
 *IdentityAPI* | [**listIdentities**](docs/IdentityAPI.md#listidentities) | **GET** /admin/identities | List Identities
 *IdentityAPI* | [**listIdentitySchemas**](docs/IdentityAPI.md#listidentityschemas) | **GET** /schemas | Get all Identity Schemas
 *IdentityAPI* | [**listIdentitySessions**](docs/IdentityAPI.md#listidentitysessions) | **GET** /admin/identities/{id}/sessions | List an Identity&#39;s Sessions
@@ -80,6 +83,11 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AuthenticatorAssuranceLevel](docs/AuthenticatorAssuranceLevel.md)
+ - [BatchPatchIdentitiesResponse](docs/BatchPatchIdentitiesResponse.md)
+ - [ContinueWith](docs/ContinueWith.md)
+ - [ContinueWithSetOrySessionToken](docs/ContinueWithSetOrySessionToken.md)
+ - [ContinueWithVerificationUi](docs/ContinueWithVerificationUi.md)
+ - [ContinueWithVerificationUiFlow](docs/ContinueWithVerificationUiFlow.md)
  - [CourierMessageStatus](docs/CourierMessageStatus.md)
  - [CourierMessageType](docs/CourierMessageType.md)
  - [CreateIdentityBody](docs/CreateIdentityBody.md)
@@ -101,6 +109,8 @@ Class | Method | HTTP request | Description
  - [IdentityCredentialsOidcProvider](docs/IdentityCredentialsOidcProvider.md)
  - [IdentityCredentialsPassword](docs/IdentityCredentialsPassword.md)
  - [IdentityCredentialsType](docs/IdentityCredentialsType.md)
+ - [IdentityPatch](docs/IdentityPatch.md)
+ - [IdentityPatchResponse](docs/IdentityPatchResponse.md)
  - [IdentitySchemaContainer](docs/IdentitySchemaContainer.md)
  - [IdentityState](docs/IdentityState.md)
  - [IdentityWithCredentials](docs/IdentityWithCredentials.md)
@@ -115,11 +125,13 @@ Class | Method | HTTP request | Description
  - [LoginFlow](docs/LoginFlow.md)
  - [LogoutFlow](docs/LogoutFlow.md)
  - [Message](docs/Message.md)
+ - [MessageDispatch](docs/MessageDispatch.md)
  - [NeedsPrivilegedSessionError](docs/NeedsPrivilegedSessionError.md)
  - [OAuth2Client](docs/OAuth2Client.md)
  - [OAuth2ConsentRequestOpenIDConnectContext](docs/OAuth2ConsentRequestOpenIDConnectContext.md)
  - [OAuth2LoginRequest](docs/OAuth2LoginRequest.md)
  - [Pagination](docs/Pagination.md)
+ - [PatchIdentitiesBody](docs/PatchIdentitiesBody.md)
  - [PerformNativeLogoutBody](docs/PerformNativeLogoutBody.md)
  - [RecoveryCodeForIdentity](docs/RecoveryCodeForIdentity.md)
  - [RecoveryFlow](docs/RecoveryFlow.md)
@@ -169,7 +181,7 @@ Class | Method | HTTP request | Description
  - [UpdateSettingsFlowWithTotpMethod](docs/UpdateSettingsFlowWithTotpMethod.md)
  - [UpdateSettingsFlowWithWebAuthnMethod](docs/UpdateSettingsFlowWithWebAuthnMethod.md)
  - [UpdateVerificationFlowBody](docs/UpdateVerificationFlowBody.md)
- - [UpdateVerificationFlowWithCodeMethodBody](docs/UpdateVerificationFlowWithCodeMethodBody.md)
+ - [UpdateVerificationFlowWithCodeMethod](docs/UpdateVerificationFlowWithCodeMethod.md)
  - [UpdateVerificationFlowWithLinkMethod](docs/UpdateVerificationFlowWithLinkMethod.md)
  - [VerifiableIdentityAddress](docs/VerifiableIdentityAddress.md)
  - [VerificationFlow](docs/VerificationFlow.md)

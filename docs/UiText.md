@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**context** | [**AnyCodable**](.md) | The message&#39;s context. Useful when customizing messages. | [optional] 
+**context** | **AnyCodable** | The message&#39;s context. Useful when customizing messages. | [optional] 
 **id** | **Int64** |  | 
 **text** | **String** | The message text. Written in american english. | 
 **type** | **String** | The message type. info Info error Error success Success | 

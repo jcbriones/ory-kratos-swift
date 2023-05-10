@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-/** nolint:deadcode,unused */
+/** Update Settings Flow with Profile Method */
 public struct UpdateSettingsFlowWithProfileMethod: Codable, JSONEncodable, Hashable {
 
     /** The Anti-CSRF Token  This token is only required when performing browser flows. */

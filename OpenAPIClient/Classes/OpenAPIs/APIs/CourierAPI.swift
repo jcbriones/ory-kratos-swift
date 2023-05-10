@@ -13,18 +13,68 @@ import AnyCodable
 open class CourierAPI {
 
     /**
+     Get a Message
+     
+     - parameter id: (path) MessageID is the ID of the message. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func getCourierMessage(id: String, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: Message?, _ error: Error?) -> Void)) -> RequestTask {
+        return getCourierMessageWithRequestBuilder(id: id).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get a Message
+     - GET /admin/courier/messages/{id}
+     - Gets a specific messages by the given ID.
+     - API Key:
+       - type: apiKey Authorization (HEADER)
+       - name: oryAccessToken
+     - parameter id: (path) MessageID is the ID of the message. 
+     - returns: RequestBuilder<Message> 
+     */
+    open class func getCourierMessageWithRequestBuilder(id: String) -> RequestBuilder<Message> {
+        var localVariablePath = "/admin/courier/messages/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Message>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      List Messages
      
-     - parameter perPage: (query) Items per Page  This is the number of items per page. (optional, default to 250)
-     - parameter page: (query) Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. (optional, default to 1)
+     - parameter pageSize: (query) Items per Page  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional, default to 250)
+     - parameter pageToken: (query) Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional)
      - parameter status: (query) Status filters out messages based on status. If no value is provided, it doesn&#39;t take effect on filter. (optional)
      - parameter recipient: (query) Recipient filters out messages based on recipient. If no value is provided, it doesn&#39;t take effect on filter. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listCourierMessages(perPage: Int64? = nil, page: Int64? = nil, status: CourierMessageStatus? = nil, recipient: String? = nil, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Message]?, _ error: Error?) -> Void)) -> RequestTask {
-        return listCourierMessagesWithRequestBuilder(perPage: perPage, page: page, status: status, recipient: recipient).execute(apiResponseQueue) { result in
+    open class func listCourierMessages(pageSize: Int64? = nil, pageToken: String? = nil, status: CourierMessageStatus? = nil, recipient: String? = nil, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Message]?, _ error: Error?) -> Void)) -> RequestTask {
+        return listCourierMessagesWithRequestBuilder(pageSize: pageSize, pageToken: pageToken, status: status, recipient: recipient).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -39,23 +89,23 @@ open class CourierAPI {
      - GET /admin/courier/messages
      - Lists all messages by given status and recipient.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
-     - parameter perPage: (query) Items per Page  This is the number of items per page. (optional, default to 250)
-     - parameter page: (query) Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. (optional, default to 1)
+     - parameter pageSize: (query) Items per Page  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional, default to 250)
+     - parameter pageToken: (query) Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional)
      - parameter status: (query) Status filters out messages based on status. If no value is provided, it doesn&#39;t take effect on filter. (optional)
      - parameter recipient: (query) Recipient filters out messages based on recipient. If no value is provided, it doesn&#39;t take effect on filter. (optional)
      - returns: RequestBuilder<[Message]> 
      */
-    open class func listCourierMessagesWithRequestBuilder(perPage: Int64? = nil, page: Int64? = nil, status: CourierMessageStatus? = nil, recipient: String? = nil) -> RequestBuilder<[Message]> {
+    open class func listCourierMessagesWithRequestBuilder(pageSize: Int64? = nil, pageToken: String? = nil, status: CourierMessageStatus? = nil, recipient: String? = nil) -> RequestBuilder<[Message]> {
         let localVariablePath = "/admin/courier/messages"
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "per_page": (wrappedValue: perPage?.encodeToJSON(), isExplode: true),
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
+            "page_size": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
+            "page_token": (wrappedValue: pageToken?.encodeToJSON(), isExplode: true),
             "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
             "recipient": (wrappedValue: recipient?.encodeToJSON(), isExplode: true),
         ])

@@ -4,16 +4,18 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**batchPatchIdentities**](IdentityAPI.md#batchpatchidentities) | **PATCH** /admin/identities | Create and deletes multiple identities
 [**createIdentity**](IdentityAPI.md#createidentity) | **POST** /admin/identities | Create an Identity
 [**createRecoveryCodeForIdentity**](IdentityAPI.md#createrecoverycodeforidentity) | **POST** /admin/recovery/code | Create a Recovery Code
 [**createRecoveryLinkForIdentity**](IdentityAPI.md#createrecoverylinkforidentity) | **POST** /admin/recovery/link | Create a Recovery Link
 [**deleteIdentity**](IdentityAPI.md#deleteidentity) | **DELETE** /admin/identities/{id} | Delete an Identity
+[**deleteIdentityCredentials**](IdentityAPI.md#deleteidentitycredentials) | **DELETE** /admin/identities/{id}/credentials/{type} | Delete a credential for a specific identity
 [**deleteIdentitySessions**](IdentityAPI.md#deleteidentitysessions) | **DELETE** /admin/identities/{id}/sessions | Delete &amp; Invalidate an Identity&#39;s Sessions
 [**disableSession**](IdentityAPI.md#disablesession) | **DELETE** /admin/sessions/{id} | Deactivate a Session
 [**extendSession**](IdentityAPI.md#extendsession) | **PATCH** /admin/sessions/{id}/extend | Extend a Session
 [**getIdentity**](IdentityAPI.md#getidentity) | **GET** /admin/identities/{id} | Get an Identity
 [**getIdentitySchema**](IdentityAPI.md#getidentityschema) | **GET** /schemas/{id} | Get Identity JSON Schema
-[**getSession**](IdentityAPI.md#getsession) | **GET** /admin/sessions/{id} | This endpoint returns the session object with expandables specified.
+[**getSession**](IdentityAPI.md#getsession) | **GET** /admin/sessions/{id} | Get Session
 [**listIdentities**](IdentityAPI.md#listidentities) | **GET** /admin/identities | List Identities
 [**listIdentitySchemas**](IdentityAPI.md#listidentityschemas) | **GET** /schemas | Get all Identity Schemas
 [**listIdentitySessions**](IdentityAPI.md#listidentitysessions) | **GET** /admin/identities/{id}/sessions | List an Identity&#39;s Sessions
@@ -21,6 +23,56 @@ Method | HTTP request | Description
 [**patchIdentity**](IdentityAPI.md#patchidentity) | **PATCH** /admin/identities/{id} | Patch an Identity
 [**updateIdentity**](IdentityAPI.md#updateidentity) | **PUT** /admin/identities/{id} | Update an Identity
 
+
+# **batchPatchIdentities**
+```swift
+    open class func batchPatchIdentities(patchIdentitiesBody: PatchIdentitiesBody? = nil, completion: @escaping (_ data: BatchPatchIdentitiesResponse?, _ error: Error?) -> Void)
+```
+
+Create and deletes multiple identities
+
+Creates or delete multiple [identities](https://www.ory.sh/docs/kratos/concepts/identity-user-model). This endpoint can also be used to [import credentials](https://www.ory.sh/docs/kratos/manage-identities/import-user-accounts-identities) for instance passwords, social sign in configurations or multifactor methods.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import OpenAPIClient
+
+let patchIdentitiesBody = patchIdentitiesBody(identities: [identityPatch(create: createIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example"), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: 123, metadataPublic: 123, recoveryAddresses: [recoveryIdentityAddress(createdAt: Date(), id: "id_example", updatedAt: Date(), value: "value_example", via: "via_example")], schemaId: "schemaId_example", state: identityState(), traits: 123, verifiableAddresses: [verifiableIdentityAddress(createdAt: Date(), id: "id_example", status: "status_example", updatedAt: Date(), value: "value_example", verified: true, verifiedAt: Date(), via: "via_example")]), patchId: "patchId_example")]) // PatchIdentitiesBody |  (optional)
+
+// Create and deletes multiple identities
+IdentityAPI.batchPatchIdentities(patchIdentitiesBody: patchIdentitiesBody) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **patchIdentitiesBody** | [**PatchIdentitiesBody**](PatchIdentitiesBody.md) |  | [optional] 
+
+### Return type
+
+[**BatchPatchIdentitiesResponse**](BatchPatchIdentitiesResponse.md)
+
+### Authorization
+
+[oryAccessToken](../README.md#oryAccessToken)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createIdentity**
 ```swift
@@ -36,7 +88,7 @@ Create an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import OpenAPIClient
 
-let createIdentityBody = createIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example"), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: "TODO", metadataPublic: "TODO", recoveryAddresses: [recoveryIdentityAddress(createdAt: Date(), id: "id_example", updatedAt: Date(), value: "value_example", via: "via_example")], schemaId: "schemaId_example", state: identityState(), traits: "TODO", verifiableAddresses: [verifiableIdentityAddress(createdAt: Date(), id: "id_example", status: "status_example", updatedAt: Date(), value: "value_example", verified: true, verifiedAt: Date(), via: "via_example")]) // CreateIdentityBody |  (optional)
+let createIdentityBody = createIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example"), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: 123, metadataPublic: 123, recoveryAddresses: [recoveryIdentityAddress(createdAt: Date(), id: "id_example", updatedAt: Date(), value: "value_example", via: "via_example")], schemaId: "schemaId_example", state: identityState(), traits: 123, verifiableAddresses: [verifiableIdentityAddress(createdAt: Date(), id: "id_example", status: "status_example", updatedAt: Date(), value: "value_example", verified: true, verifiedAt: Date(), via: "via_example")]) // CreateIdentityBody |  (optional)
 
 // Create an Identity
 IdentityAPI.createIdentity(createIdentityBody: createIdentityBody) { (response, error) in
@@ -113,7 +165,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oryAccessToken](../README.md#oryAccessToken)
 
 ### HTTP request headers
 
@@ -163,7 +215,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oryAccessToken](../README.md#oryAccessToken)
 
 ### HTTP request headers
 
@@ -210,6 +262,58 @@ Name | Type | Description  | Notes
 ### Return type
 
 Void (empty response body)
+
+### Authorization
+
+[oryAccessToken](../README.md#oryAccessToken)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteIdentityCredentials**
+```swift
+    open class func deleteIdentityCredentials(id: String, type: ModelType_deleteIdentityCredentials, completion: @escaping (_ data: Identity?, _ error: Error?) -> Void)
+```
+
+Delete a credential for a specific identity
+
+Delete an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model) credential by its type You can only delete second factor (aal2) credentials.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import OpenAPIClient
+
+let id = "id_example" // String | ID is the identity's ID.
+let type = "type_example" // String | Type is the credential's Type. One of totp, webauthn, lookup
+
+// Delete a credential for a specific identity
+IdentityAPI.deleteIdentityCredentials(id: id, type: type) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String** | ID is the identity&#39;s ID. | 
+ **type** | **String** | Type is the credential&#39;s Type. One of totp, webauthn, lookup | 
+
+### Return type
+
+[**Identity**](Identity.md)
 
 ### Authorization
 
@@ -313,7 +417,7 @@ Void (empty response body)
 
 ### Authorization
 
-No authorization required
+[oryAccessToken](../README.md#oryAccessToken)
 
 ### HTTP request headers
 
@@ -461,7 +565,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AnyCodable**](AnyCodable.md)
+**AnyCodable**
 
 ### Authorization
 
@@ -479,7 +583,7 @@ No authorization required
     open class func getSession(id: String, expand: [Expand_getSession]? = nil, completion: @escaping (_ data: Session?, _ error: Error?) -> Void)
 ```
 
-This endpoint returns the session object with expandables specified.
+Get Session
 
 This endpoint is useful for:  Getting a session object with all specified expandables that exist in an administrative context.
 
@@ -489,9 +593,9 @@ This endpoint is useful for:  Getting a session object with all specified expand
 import OpenAPIClient
 
 let id = "id_example" // String | ID is the session's ID.
-let expand = ["expand_example"] // [String] | ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. Example - ?expand=Identity&expand=Devices If no value is provided, the expandable properties are skipped. (optional)
+let expand = ["inner_example"] // [String] | ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. Example - ?expand=Identity&expand=Devices If no value is provided, the expandable properties are skipped. (optional)
 
-// This endpoint returns the session object with expandables specified.
+// Get Session
 IdentityAPI.getSession(id: id, expand: expand) { (response, error) in
     guard error == nil else {
         print(error)
@@ -528,7 +632,7 @@ Name | Type | Description  | Notes
 
 # **listIdentities**
 ```swift
-    open class func listIdentities(perPage: Int64? = nil, page: Int64? = nil, completion: @escaping (_ data: [Identity]?, _ error: Error?) -> Void)
+    open class func listIdentities(perPage: Int64? = nil, page: Int64? = nil, credentialsIdentifier: String? = nil, completion: @escaping (_ data: [Identity]?, _ error: Error?) -> Void)
 ```
 
 List Identities
@@ -542,9 +646,10 @@ import OpenAPIClient
 
 let perPage = 987 // Int64 | Items per Page  This is the number of items per page. (optional) (default to 250)
 let page = 987 // Int64 | Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. (optional) (default to 1)
+let credentialsIdentifier = "credentialsIdentifier_example" // String | CredentialsIdentifier is the identifier (username, email) of the credentials to look up. (optional)
 
 // List Identities
-IdentityAPI.listIdentities(perPage: perPage, page: page) { (response, error) in
+IdentityAPI.listIdentities(perPage: perPage, page: page, credentialsIdentifier: credentialsIdentifier) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -562,6 +667,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **perPage** | **Int64** | Items per Page  This is the number of items per page. | [optional] [default to 250]
  **page** | **Int64** | Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. | [optional] [default to 1]
+ **credentialsIdentifier** | **String** | CredentialsIdentifier is the identifier (username, email) of the credentials to look up. | [optional] 
 
 ### Return type
 
@@ -703,7 +809,7 @@ import OpenAPIClient
 let pageSize = 987 // Int64 | Items per Page  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional) (default to 250)
 let pageToken = "pageToken_example" // String | Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional)
 let active = true // Bool | Active is a boolean flag that filters out sessions based on the state. If no value is provided, all sessions are returned. (optional)
-let expand = ["expand_example"] // [String] | ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. Example - ?expand=Identity&expand=Devices If no value is provided, the expandable properties are skipped. (optional)
+let expand = ["inner_example"] // [String] | ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. If no value is provided, the expandable properties are skipped. (optional)
 
 // List All Sessions
 IdentityAPI.listSessions(pageSize: pageSize, pageToken: pageToken, active: active, expand: expand) { (response, error) in
@@ -725,7 +831,7 @@ Name | Type | Description  | Notes
  **pageSize** | **Int64** | Items per Page  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). | [optional] [default to 250]
  **pageToken** | **String** | Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). | [optional] 
  **active** | **Bool** | Active is a boolean flag that filters out sessions based on the state. If no value is provided, all sessions are returned. | [optional] 
- **expand** | [**[String]**](String.md) | ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. Example - ?expand&#x3D;Identity&amp;expand&#x3D;Devices If no value is provided, the expandable properties are skipped. | [optional] 
+ **expand** | [**[String]**](String.md) | ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. If no value is provided, the expandable properties are skipped. | [optional] 
 
 ### Return type
 
@@ -757,7 +863,7 @@ Partially updates an [identity's](https://www.ory.sh/docs/kratos/concepts/identi
 import OpenAPIClient
 
 let id = "id_example" // String | ID must be set to the ID of identity you want to update
-let jsonPatch = [jsonPatch(from: "from_example", op: "op_example", path: "path_example", value: "TODO")] // [JsonPatch] |  (optional)
+let jsonPatch = [jsonPatch(from: "from_example", op: "op_example", path: "path_example", value: 123)] // [JsonPatch] |  (optional)
 
 // Patch an Identity
 IdentityAPI.patchIdentity(id: id, jsonPatch: jsonPatch) { (response, error) in
@@ -809,7 +915,7 @@ This endpoint updates an [identity](https://www.ory.sh/docs/kratos/concepts/iden
 import OpenAPIClient
 
 let id = "id_example" // String | ID must be set to the ID of identity you want to update
-let updateIdentityBody = updateIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example"), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: "TODO", metadataPublic: "TODO", schemaId: "schemaId_example", state: identityState(), traits: "TODO") // UpdateIdentityBody |  (optional)
+let updateIdentityBody = updateIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example"), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: 123, metadataPublic: 123, schemaId: "schemaId_example", state: identityState(), traits: 123) // UpdateIdentityBody |  (optional)
 
 // Update an Identity
 IdentityAPI.updateIdentity(id: id, updateIdentityBody: updateIdentityBody) { (response, error) in

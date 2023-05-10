@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **pattern** | **String** | The input&#39;s pattern. | [optional] 
 **_required** | **Bool** | Mark this input field as required. | [optional] 
 **type** | **String** | The script MIME type | 
-**value** | [**AnyCodable**](.md) | The input&#39;s value. | [optional] 
+**value** | **AnyCodable** | The input&#39;s value. | [optional] 
 **id** | **String** | A unique identifier | 
 **text** | [**UiText**](UiText.md) |  | 
 **height** | **Int64** | Height of the image | 

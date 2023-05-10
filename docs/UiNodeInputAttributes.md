@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **pattern** | **String** | The input&#39;s pattern. | [optional] 
 **_required** | **Bool** | Mark this input field as required. | [optional] 
 **type** | **String** | The input&#39;s element type. text InputAttributeTypeText password InputAttributeTypePassword number InputAttributeTypeNumber checkbox InputAttributeTypeCheckbox hidden InputAttributeTypeHidden email InputAttributeTypeEmail tel InputAttributeTypeTel submit InputAttributeTypeSubmit button InputAttributeTypeButton datetime-local InputAttributeTypeDateTimeLocal date InputAttributeTypeDate url InputAttributeTypeURI | 
-**value** | [**AnyCodable**](.md) | The input&#39;s value. | [optional] 
+**value** | **AnyCodable** | The input&#39;s value. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

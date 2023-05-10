@@ -13,6 +13,7 @@ import AnyCodable
 /** Create Recovery Code for Identity Request Body */
 public struct CreateRecoveryCodeForIdentityBody: Codable, JSONEncodable, Hashable {
 
+    static let expiresInRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^([0-9]+(ns|us|ms|s|m|h))*$/")
     /** Code Expires In  The recovery code will expire after that amount of time has passed. Defaults to the configuration value of `selfservice.methods.code.config.lifespan`. */
     public var expiresIn: String?
     /** Identity to Recover  The identity's ID you wish to recover. */

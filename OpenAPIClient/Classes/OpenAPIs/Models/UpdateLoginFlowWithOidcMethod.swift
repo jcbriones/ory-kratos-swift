@@ -21,12 +21,15 @@ public struct UpdateLoginFlowWithOidcMethod: Codable, JSONEncodable, Hashable {
     public var provider: String
     /** The identity traits. This is a placeholder for the registration flow. */
     public var traits: AnyCodable?
+    /** UpstreamParameters are the parameters that are passed to the upstream identity provider.  These parameters are optional and depend on what the upstream identity provider supports. Supported parameters are: `login_hint` (string): The `login_hint` parameter suppresses the account chooser and either pre-fills the email box on the sign-in form, or selects the proper session. `hd` (string): The `hd` parameter limits the login/registration process to a Google Organization, e.g. `mycollege.edu`. */
+    public var upstreamParameters: AnyCodable?
 
-    public init(csrfToken: String? = nil, method: String, provider: String, traits: AnyCodable? = nil) {
+    public init(csrfToken: String? = nil, method: String, provider: String, traits: AnyCodable? = nil, upstreamParameters: AnyCodable? = nil) {
         self.csrfToken = csrfToken
         self.method = method
         self.provider = provider
         self.traits = traits
+        self.upstreamParameters = upstreamParameters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -34,6 +37,7 @@ public struct UpdateLoginFlowWithOidcMethod: Codable, JSONEncodable, Hashable {
         case method
         case provider
         case traits
+        case upstreamParameters = "upstream_parameters"
     }
 
     // Encodable protocol methods
@@ -44,6 +48,7 @@ public struct UpdateLoginFlowWithOidcMethod: Codable, JSONEncodable, Hashable {
         try container.encode(method, forKey: .method)
         try container.encode(provider, forKey: .provider)
         try container.encodeIfPresent(traits, forKey: .traits)
+        try container.encodeIfPresent(upstreamParameters, forKey: .upstreamParameters)
     }
 }
 

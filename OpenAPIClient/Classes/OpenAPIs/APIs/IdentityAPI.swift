@@ -13,6 +13,53 @@ import AnyCodable
 open class IdentityAPI {
 
     /**
+     Create and deletes multiple identities
+     
+     - parameter patchIdentitiesBody: (body)  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func batchPatchIdentities(patchIdentitiesBody: PatchIdentitiesBody? = nil, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: BatchPatchIdentitiesResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return batchPatchIdentitiesWithRequestBuilder(patchIdentitiesBody: patchIdentitiesBody).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Create and deletes multiple identities
+     - PATCH /admin/identities
+     - Creates or delete multiple [identities](https://www.ory.sh/docs/kratos/concepts/identity-user-model). This endpoint can also be used to [import credentials](https://www.ory.sh/docs/kratos/manage-identities/import-user-accounts-identities) for instance passwords, social sign in configurations or multifactor methods.
+     - API Key:
+       - type: apiKey Authorization (HEADER)
+       - name: oryAccessToken
+     - parameter patchIdentitiesBody: (body)  (optional)
+     - returns: RequestBuilder<BatchPatchIdentitiesResponse> 
+     */
+    open class func batchPatchIdentitiesWithRequestBuilder(patchIdentitiesBody: PatchIdentitiesBody? = nil) -> RequestBuilder<BatchPatchIdentitiesResponse> {
+        let localVariablePath = "/admin/identities"
+        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: patchIdentitiesBody)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<BatchPatchIdentitiesResponse>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Create an Identity
      
      - parameter createIdentityBody: (body)  (optional)
@@ -36,7 +83,7 @@ open class IdentityAPI {
      - POST /admin/identities
      - Create an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model).  This endpoint can also be used to [import credentials](https://www.ory.sh/docs/kratos/manage-identities/import-user-accounts-identities) for instance passwords, social sign in configurations or multifactor methods.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter createIdentityBody: (body)  (optional)
      - returns: RequestBuilder<Identity> 
@@ -82,6 +129,9 @@ open class IdentityAPI {
      Create a Recovery Code
      - POST /admin/recovery/code
      - This endpoint creates a recovery code which should be given to the user in order for them to recover (or activate) their account.
+     - API Key:
+       - type: apiKey Authorization (HEADER)
+       - name: oryAccessToken
      - parameter createRecoveryCodeForIdentityBody: (body)  (optional)
      - returns: RequestBuilder<RecoveryCodeForIdentity> 
      */
@@ -100,7 +150,7 @@ open class IdentityAPI {
 
         let localVariableRequestBuilder: RequestBuilder<RecoveryCodeForIdentity>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 
     /**
@@ -126,6 +176,9 @@ open class IdentityAPI {
      Create a Recovery Link
      - POST /admin/recovery/link
      - This endpoint creates a recovery link which should be given to the user in order for them to recover (or activate) their account.
+     - API Key:
+       - type: apiKey Authorization (HEADER)
+       - name: oryAccessToken
      - parameter createRecoveryLinkForIdentityBody: (body)  (optional)
      - returns: RequestBuilder<RecoveryLinkForIdentity> 
      */
@@ -144,7 +197,7 @@ open class IdentityAPI {
 
         let localVariableRequestBuilder: RequestBuilder<RecoveryLinkForIdentity>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 
     /**
@@ -171,7 +224,7 @@ open class IdentityAPI {
      - DELETE /admin/identities/{id}
      - Calling this endpoint irrecoverably and permanently deletes the [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model) given its ID. This action can not be undone. This endpoint returns 204 when the identity was deleted or when the identity was not found, in which case it is assumed that is has been deleted already.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter id: (path) ID is the identity&#39;s ID. 
      - returns: RequestBuilder<Void> 
@@ -193,6 +246,70 @@ open class IdentityAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = OpenAPIClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     * enum for parameter type
+     */
+    public enum ModelType_deleteIdentityCredentials: String, CaseIterable {
+        case totp = "totp"
+        case webauthn = "webauthn"
+        case lookup = "lookup"
+    }
+
+    /**
+     Delete a credential for a specific identity
+     
+     - parameter id: (path) ID is the identity&#39;s ID. 
+     - parameter type: (path) Type is the credential&#39;s Type. One of totp, webauthn, lookup 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func deleteIdentityCredentials(id: String, type: ModelType_deleteIdentityCredentials, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: Identity?, _ error: Error?) -> Void)) -> RequestTask {
+        return deleteIdentityCredentialsWithRequestBuilder(id: id, type: type).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Delete a credential for a specific identity
+     - DELETE /admin/identities/{id}/credentials/{type}
+     - Delete an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model) credential by its type You can only delete second factor (aal2) credentials.
+     - API Key:
+       - type: apiKey Authorization (HEADER)
+       - name: oryAccessToken
+     - parameter id: (path) ID is the identity&#39;s ID. 
+     - parameter type: (path) Type is the credential&#39;s Type. One of totp, webauthn, lookup 
+     - returns: RequestBuilder<Identity> 
+     */
+    open class func deleteIdentityCredentialsWithRequestBuilder(id: String, type: ModelType_deleteIdentityCredentials) -> RequestBuilder<Identity> {
+        var localVariablePath = "/admin/identities/{id}/credentials/{type}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let typePreEscape = "\(type.rawValue)"
+        let typePostEscape = typePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{type}", with: typePostEscape, options: .literal, range: nil)
+        let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Identity>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -221,7 +338,7 @@ open class IdentityAPI {
      - DELETE /admin/identities/{id}/sessions
      - Calling this endpoint irrecoverably and permanently deletes and invalidates all sessions that belong to the given Identity.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter id: (path) ID is the identity&#39;s ID. 
      - returns: RequestBuilder<Void> 
@@ -270,6 +387,9 @@ open class IdentityAPI {
      Deactivate a Session
      - DELETE /admin/sessions/{id}
      - Calling this endpoint deactivates the specified session. Session data is not deleted.
+     - API Key:
+       - type: apiKey Authorization (HEADER)
+       - name: oryAccessToken
      - parameter id: (path) ID is the session&#39;s ID. 
      - returns: RequestBuilder<Void> 
      */
@@ -291,7 +411,7 @@ open class IdentityAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = OpenAPIClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 
     /**
@@ -318,7 +438,7 @@ open class IdentityAPI {
      - PATCH /admin/sessions/{id}/extend
      - Calling this endpoint extends the given session ID. If `session.earliest_possible_extend` is set it will only extend the session after the specified time has passed.  Retrieve the session ID from the `/sessions/whoami` endpoint / `toSession` SDK method.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter id: (path) ID is the session&#39;s ID. 
      - returns: RequestBuilder<Session> 
@@ -369,7 +489,7 @@ open class IdentityAPI {
      - GET /admin/identities/{id}
      - Return an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model) by its ID. You can optionally include credentials (e.g. social sign in connections) in the response by using the `include_credential` query parameter.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter id: (path) ID must be set to the ID of identity you want to get 
      - parameter includeCredential: (query) Include Credentials in Response  Currently, only &#x60;oidc&#x60; is supported. This will return the initial OAuth 2.0 Access, Refresh and (optionally) OpenID Connect ID Token. (optional)
@@ -450,12 +570,10 @@ open class IdentityAPI {
      * enum for parameter expand
      */
     public enum Expand_getSession: String, CaseIterable {
-        case devices = "Devices"
-        case identity = "Identity"
     }
 
     /**
-     This endpoint returns the session object with expandables specified.
+     Get Session
      
      - parameter id: (path) ID is the session&#39;s ID. 
      - parameter expand: (query) ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. Example - ?expand&#x3D;Identity&amp;expand&#x3D;Devices If no value is provided, the expandable properties are skipped. (optional)
@@ -475,11 +593,11 @@ open class IdentityAPI {
     }
 
     /**
-     This endpoint returns the session object with expandables specified.
+     Get Session
      - GET /admin/sessions/{id}
      - This endpoint is useful for:  Getting a session object with all specified expandables that exist in an administrative context.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter id: (path) ID is the session&#39;s ID. 
      - parameter expand: (query) ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. Example - ?expand&#x3D;Identity&amp;expand&#x3D;Devices If no value is provided, the expandable properties are skipped. (optional)
@@ -514,12 +632,13 @@ open class IdentityAPI {
      
      - parameter perPage: (query) Items per Page  This is the number of items per page. (optional, default to 250)
      - parameter page: (query) Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. (optional, default to 1)
+     - parameter credentialsIdentifier: (query) CredentialsIdentifier is the identifier (username, email) of the credentials to look up. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listIdentities(perPage: Int64? = nil, page: Int64? = nil, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Identity]?, _ error: Error?) -> Void)) -> RequestTask {
-        return listIdentitiesWithRequestBuilder(perPage: perPage, page: page).execute(apiResponseQueue) { result in
+    open class func listIdentities(perPage: Int64? = nil, page: Int64? = nil, credentialsIdentifier: String? = nil, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Identity]?, _ error: Error?) -> Void)) -> RequestTask {
+        return listIdentitiesWithRequestBuilder(perPage: perPage, page: page, credentialsIdentifier: credentialsIdentifier).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -534,13 +653,14 @@ open class IdentityAPI {
      - GET /admin/identities
      - Lists all [identities](https://www.ory.sh/docs/kratos/concepts/identity-user-model) in the system.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter perPage: (query) Items per Page  This is the number of items per page. (optional, default to 250)
      - parameter page: (query) Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. (optional, default to 1)
+     - parameter credentialsIdentifier: (query) CredentialsIdentifier is the identifier (username, email) of the credentials to look up. (optional)
      - returns: RequestBuilder<[Identity]> 
      */
-    open class func listIdentitiesWithRequestBuilder(perPage: Int64? = nil, page: Int64? = nil) -> RequestBuilder<[Identity]> {
+    open class func listIdentitiesWithRequestBuilder(perPage: Int64? = nil, page: Int64? = nil, credentialsIdentifier: String? = nil) -> RequestBuilder<[Identity]> {
         let localVariablePath = "/admin/identities"
         let localVariableURLString = OpenAPIClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -549,6 +669,7 @@ open class IdentityAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "per_page": (wrappedValue: perPage?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
+            "credentials_identifier": (wrappedValue: credentialsIdentifier?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -639,7 +760,7 @@ open class IdentityAPI {
      - GET /admin/identities/{id}/sessions
      - This endpoint returns all sessions that belong to the given Identity.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter id: (path) ID is the identity&#39;s ID. 
      - parameter perPage: (query) Items per Page  This is the number of items per page. (optional, default to 250)
@@ -677,8 +798,6 @@ open class IdentityAPI {
      * enum for parameter expand
      */
     public enum Expand_listSessions: String, CaseIterable {
-        case devices = "Devices"
-        case identity = "Identity"
     }
 
     /**
@@ -687,7 +806,7 @@ open class IdentityAPI {
      - parameter pageSize: (query) Items per Page  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional, default to 250)
      - parameter pageToken: (query) Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional)
      - parameter active: (query) Active is a boolean flag that filters out sessions based on the state. If no value is provided, all sessions are returned. (optional)
-     - parameter expand: (query) ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. Example - ?expand&#x3D;Identity&amp;expand&#x3D;Devices If no value is provided, the expandable properties are skipped. (optional)
+     - parameter expand: (query) ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. If no value is provided, the expandable properties are skipped. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -708,12 +827,12 @@ open class IdentityAPI {
      - GET /admin/sessions
      - Listing all sessions that exist.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter pageSize: (query) Items per Page  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional, default to 250)
      - parameter pageToken: (query) Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional)
      - parameter active: (query) Active is a boolean flag that filters out sessions based on the state. If no value is provided, all sessions are returned. (optional)
-     - parameter expand: (query) ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. Example - ?expand&#x3D;Identity&amp;expand&#x3D;Devices If no value is provided, the expandable properties are skipped. (optional)
+     - parameter expand: (query) ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. If no value is provided, the expandable properties are skipped. (optional)
      - returns: RequestBuilder<[Session]> 
      */
     open class func listSessionsWithRequestBuilder(pageSize: Int64? = nil, pageToken: String? = nil, active: Bool? = nil, expand: [Expand_listSessions]? = nil) -> RequestBuilder<[Session]> {
@@ -765,7 +884,7 @@ open class IdentityAPI {
      - PATCH /admin/identities/{id}
      - Partially updates an [identity's](https://www.ory.sh/docs/kratos/concepts/identity-user-model) field using [JSON Patch](https://jsonpatch.com/). The fields `id`, `stateChangedAt` and `credentials` can not be updated using this method.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter id: (path) ID must be set to the ID of identity you want to update 
      - parameter jsonPatch: (body)  (optional)
@@ -817,7 +936,7 @@ open class IdentityAPI {
      - PUT /admin/identities/{id}
      - This endpoint updates an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model). The full identity payload (except credentials) is expected. It is possible to update the identity's credentials as well.
      - API Key:
-       - type: apiKey Authorization 
+       - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter id: (path) ID must be set to the ID of identity you want to update 
      - parameter updateIdentityBody: (body)  (optional)

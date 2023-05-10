@@ -21,12 +21,15 @@ public struct UpdateRegistrationFlowWithPasswordMethod: Codable, JSONEncodable, 
     public var password: String
     /** The identity's traits */
     public var traits: AnyCodable
+    /** Transient data to pass along to any webhooks */
+    public var transientPayload: AnyCodable?
 
-    public init(csrfToken: String? = nil, method: String, password: String, traits: AnyCodable) {
+    public init(csrfToken: String? = nil, method: String, password: String, traits: AnyCodable, transientPayload: AnyCodable? = nil) {
         self.csrfToken = csrfToken
         self.method = method
         self.password = password
         self.traits = traits
+        self.transientPayload = transientPayload
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -34,6 +37,7 @@ public struct UpdateRegistrationFlowWithPasswordMethod: Codable, JSONEncodable, 
         case method
         case password
         case traits
+        case transientPayload = "transient_payload"
     }
 
     // Encodable protocol methods
@@ -44,6 +48,7 @@ public struct UpdateRegistrationFlowWithPasswordMethod: Codable, JSONEncodable, 
         try container.encode(method, forKey: .method)
         try container.encode(password, forKey: .password)
         try container.encode(traits, forKey: .traits)
+        try container.encodeIfPresent(transientPayload, forKey: .transientPayload)
     }
 }
 

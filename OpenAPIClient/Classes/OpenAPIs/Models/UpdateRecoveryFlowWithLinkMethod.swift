@@ -13,14 +13,18 @@ import AnyCodable
 /** Update Recovery Flow with Link Method */
 public struct UpdateRecoveryFlowWithLinkMethod: Codable, JSONEncodable, Hashable {
 
+    public enum Method: String, Codable, CaseIterable {
+        case link = "link"
+        case code = "code"
+    }
     /** Sending the anti-csrf token is only required for browser login flows. */
     public var csrfToken: String?
     /** Email to Recover  Needs to be set when initiating the flow. If the email is a registered recovery email, a recovery link will be sent. If the email is not known, a email with details on what happened will be sent instead.  format: email */
     public var email: String
-    /** Method supports `link` only right now. */
-    public var method: String
+    /** Method is the method that should be used for this recovery flow  Allowed values are `link` and `code` link RecoveryStrategyLink code RecoveryStrategyCode */
+    public var method: Method
 
-    public init(csrfToken: String? = nil, email: String, method: String) {
+    public init(csrfToken: String? = nil, email: String, method: Method) {
         self.csrfToken = csrfToken
         self.email = email
         self.method = method

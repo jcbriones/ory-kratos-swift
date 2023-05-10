@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-/** nolint:deadcode,unused */
+/** Perform Native Logout Request Body */
 public struct PerformNativeLogoutBody: Codable, JSONEncodable, Hashable {
 
     /** The Session Token  Invalidate this session token. */

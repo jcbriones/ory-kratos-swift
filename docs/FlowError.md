@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **createdAt** | **Date** | CreatedAt is a helper struct field for gobuffalo.pop. | [optional] 
-**error** | [**AnyCodable**](.md) |  | [optional] 
+**error** | **AnyCodable** |  | [optional] 
 **id** | **String** | ID of the error container. | 
 **updatedAt** | **Date** | UpdatedAt is a helper struct field for gobuffalo.pop. | [optional] 
 

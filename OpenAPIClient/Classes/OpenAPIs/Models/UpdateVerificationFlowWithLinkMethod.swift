@@ -17,7 +17,7 @@ public struct UpdateVerificationFlowWithLinkMethod: Codable, JSONEncodable, Hash
     public var csrfToken: String?
     /** Email to Verify  Needs to be set when initiating the flow. If the email is a registered verification email, a verification link will be sent. If the email is not known, a email with details on what happened will be sent instead.  format: email */
     public var email: String
-    /** Method supports `link` only right now. */
+    /** Method is the method that should be used for this verification flow  Allowed values are `link` and `code` */
     public var method: String
 
     public init(csrfToken: String? = nil, email: String, method: String) {

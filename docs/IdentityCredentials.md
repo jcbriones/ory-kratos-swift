@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**config** | [**AnyCodable**](.md) |  | [optional] 
+**config** | **AnyCodable** |  | [optional] 
 **createdAt** | **Date** | CreatedAt is a helper struct field for gobuffalo.pop. | [optional] 
 **identifiers** | **[String]** | Identifiers represents a list of unique identifiers this credential type matches. | [optional] 
 **type** | [**IdentityCredentialsType**](IdentityCredentialsType.md) |  | [optional] 

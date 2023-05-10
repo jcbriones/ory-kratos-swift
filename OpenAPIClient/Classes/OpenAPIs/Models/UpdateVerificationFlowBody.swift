@@ -10,13 +10,16 @@ import Foundation
 import AnyCodable
 #endif
 
-/** nolint:deadcode,unused */
+/** Update Verification Flow Request Body */
 public enum UpdateVerificationFlowBody: Codable, JSONEncodable, Hashable {
+    case typeUpdateVerificationFlowWithCodeMethod(UpdateVerificationFlowWithCodeMethod)
     case typeUpdateVerificationFlowWithLinkMethod(UpdateVerificationFlowWithLinkMethod)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
+        case .typeUpdateVerificationFlowWithCodeMethod(let value):
+            try container.encode(value)
         case .typeUpdateVerificationFlowWithLinkMethod(let value):
             try container.encode(value)
         }
@@ -24,7 +27,9 @@ public enum UpdateVerificationFlowBody: Codable, JSONEncodable, Hashable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(UpdateVerificationFlowWithLinkMethod.self) {
+        if let value = try? container.decode(UpdateVerificationFlowWithCodeMethod.self) {
+            self = .typeUpdateVerificationFlowWithCodeMethod(value)
+        } else if let value = try? container.decode(UpdateVerificationFlowWithLinkMethod.self) {
             self = .typeUpdateVerificationFlowWithLinkMethod(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of UpdateVerificationFlowBody"))

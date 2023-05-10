@@ -15,7 +15,7 @@ public struct IdentitySchemaContainer: Codable, JSONEncodable, Hashable {
 
     /** The ID of the Identity JSON Schema */
     public var id: String?
-    /** Raw JSON Schema */
+    /** The actual Identity JSON Schema */
     public var schema: AnyCodable?
 
     public init(id: String? = nil, schema: AnyCodable? = nil) {

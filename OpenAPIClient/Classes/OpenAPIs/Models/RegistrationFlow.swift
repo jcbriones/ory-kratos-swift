@@ -25,11 +25,13 @@ public struct RegistrationFlow: Codable, JSONEncodable, Hashable {
     public var requestUrl: String
     /** ReturnTo contains the requested return_to URL. */
     public var returnTo: String?
+    /** TransientPayload is used to pass data from the registration to a webhook */
+    public var transientPayload: AnyCodable?
     /** The flow type can either be `api` or `browser`. */
     public var type: String
     public var ui: UiContainer
 
-    public init(active: IdentityCredentialsType? = nil, expiresAt: Date, id: String, issuedAt: Date, oauth2LoginChallenge: String? = nil, oauth2LoginRequest: OAuth2LoginRequest? = nil, requestUrl: String, returnTo: String? = nil, type: String, ui: UiContainer) {
+    public init(active: IdentityCredentialsType? = nil, expiresAt: Date, id: String, issuedAt: Date, oauth2LoginChallenge: String? = nil, oauth2LoginRequest: OAuth2LoginRequest? = nil, requestUrl: String, returnTo: String? = nil, transientPayload: AnyCodable? = nil, type: String, ui: UiContainer) {
         self.active = active
         self.expiresAt = expiresAt
         self.id = id
@@ -38,6 +40,7 @@ public struct RegistrationFlow: Codable, JSONEncodable, Hashable {
         self.oauth2LoginRequest = oauth2LoginRequest
         self.requestUrl = requestUrl
         self.returnTo = returnTo
+        self.transientPayload = transientPayload
         self.type = type
         self.ui = ui
     }
@@ -51,6 +54,7 @@ public struct RegistrationFlow: Codable, JSONEncodable, Hashable {
         case oauth2LoginRequest = "oauth2_login_request"
         case requestUrl = "request_url"
         case returnTo = "return_to"
+        case transientPayload = "transient_payload"
         case type
         case ui
     }
@@ -67,6 +71,7 @@ public struct RegistrationFlow: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(oauth2LoginRequest, forKey: .oauth2LoginRequest)
         try container.encode(requestUrl, forKey: .requestUrl)
         try container.encodeIfPresent(returnTo, forKey: .returnTo)
+        try container.encodeIfPresent(transientPayload, forKey: .transientPayload)
         try container.encode(type, forKey: .type)
         try container.encode(ui, forKey: .ui)
     }
