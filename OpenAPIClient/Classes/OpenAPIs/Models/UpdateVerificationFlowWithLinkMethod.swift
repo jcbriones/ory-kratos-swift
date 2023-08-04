@@ -13,14 +13,18 @@ import AnyCodable
 /** Update Verification Flow with Link Method */
 public struct UpdateVerificationFlowWithLinkMethod: Codable, JSONEncodable, Hashable {
 
+    public enum Method: String, Codable, CaseIterable {
+        case link = "link"
+        case code = "code"
+    }
     /** Sending the anti-csrf token is only required for browser login flows. */
     public var csrfToken: String?
     /** Email to Verify  Needs to be set when initiating the flow. If the email is a registered verification email, a verification link will be sent. If the email is not known, a email with details on what happened will be sent instead.  format: email */
     public var email: String
-    /** Method is the method that should be used for this verification flow  Allowed values are `link` and `code` */
-    public var method: String
+    /** Method is the method that should be used for this verification flow  Allowed values are `link` and `code` link VerificationStrategyLink code VerificationStrategyCode */
+    public var method: Method
 
-    public init(csrfToken: String? = nil, email: String, method: String) {
+    public init(csrfToken: String? = nil, email: String, method: Method) {
         self.csrfToken = csrfToken
         self.email = email
         self.method = method

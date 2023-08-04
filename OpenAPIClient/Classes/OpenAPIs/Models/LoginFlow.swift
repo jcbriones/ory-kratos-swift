@@ -22,6 +22,7 @@ public struct LoginFlow: Codable, JSONEncodable, Hashable {
     public var id: String
     /** IssuedAt is the time (UTC) when the flow started. */
     public var issuedAt: Date
+    /** Ory OAuth 2.0 Login Challenge.  This value is set using the `login_challenge` query parameter of the registration and login endpoints. If set will cooperate with Ory OAuth2 and OpenID to act as an OAuth2 server / OpenID Provider. */
     public var oauth2LoginChallenge: String?
     public var oauth2LoginRequest: OAuth2LoginRequest?
     /** Refresh stores whether this login flow should enforce re-authentication. */
@@ -31,13 +32,15 @@ public struct LoginFlow: Codable, JSONEncodable, Hashable {
     public var requestedAal: AuthenticatorAssuranceLevel?
     /** ReturnTo contains the requested return_to URL. */
     public var returnTo: String?
+    /** SessionTokenExchangeCode holds the secret code that the client can use to retrieve a session token after the login flow has been completed. This is only set if the client has requested a session token exchange code, and if the flow is of type \"api\", and only on creating the login flow. */
+    public var sessionTokenExchangeCode: String?
     /** The flow type can either be `api` or `browser`. */
     public var type: String
     public var ui: UiContainer
     /** UpdatedAt is a helper struct field for gobuffalo.pop. */
     public var updatedAt: Date?
 
-    public init(active: IdentityCredentialsType? = nil, createdAt: Date? = nil, expiresAt: Date, id: String, issuedAt: Date, oauth2LoginChallenge: String? = nil, oauth2LoginRequest: OAuth2LoginRequest? = nil, refresh: Bool? = nil, requestUrl: String, requestedAal: AuthenticatorAssuranceLevel? = nil, returnTo: String? = nil, type: String, ui: UiContainer, updatedAt: Date? = nil) {
+    public init(active: IdentityCredentialsType? = nil, createdAt: Date? = nil, expiresAt: Date, id: String, issuedAt: Date, oauth2LoginChallenge: String? = nil, oauth2LoginRequest: OAuth2LoginRequest? = nil, refresh: Bool? = nil, requestUrl: String, requestedAal: AuthenticatorAssuranceLevel? = nil, returnTo: String? = nil, sessionTokenExchangeCode: String? = nil, type: String, ui: UiContainer, updatedAt: Date? = nil) {
         self.active = active
         self.createdAt = createdAt
         self.expiresAt = expiresAt
@@ -49,6 +52,7 @@ public struct LoginFlow: Codable, JSONEncodable, Hashable {
         self.requestUrl = requestUrl
         self.requestedAal = requestedAal
         self.returnTo = returnTo
+        self.sessionTokenExchangeCode = sessionTokenExchangeCode
         self.type = type
         self.ui = ui
         self.updatedAt = updatedAt
@@ -66,6 +70,7 @@ public struct LoginFlow: Codable, JSONEncodable, Hashable {
         case requestUrl = "request_url"
         case requestedAal = "requested_aal"
         case returnTo = "return_to"
+        case sessionTokenExchangeCode = "session_token_exchange_code"
         case type
         case ui
         case updatedAt = "updated_at"
@@ -86,6 +91,7 @@ public struct LoginFlow: Codable, JSONEncodable, Hashable {
         try container.encode(requestUrl, forKey: .requestUrl)
         try container.encodeIfPresent(requestedAal, forKey: .requestedAal)
         try container.encodeIfPresent(returnTo, forKey: .returnTo)
+        try container.encodeIfPresent(sessionTokenExchangeCode, forKey: .sessionTokenExchangeCode)
         try container.encode(type, forKey: .type)
         try container.encode(ui, forKey: .ui)
         try container.encodeIfPresent(updatedAt, forKey: .updatedAt)

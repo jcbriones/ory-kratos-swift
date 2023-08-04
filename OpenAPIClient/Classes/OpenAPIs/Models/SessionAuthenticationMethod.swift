@@ -27,17 +27,21 @@ public struct SessionAuthenticationMethod: Codable, JSONEncodable, Hashable {
     /** When the authentication challenge was completed. */
     public var completedAt: Date?
     public var method: Method?
+    /** OIDC or SAML provider id used for authentication */
+    public var provider: String?
 
-    public init(aal: AuthenticatorAssuranceLevel? = nil, completedAt: Date? = nil, method: Method? = nil) {
+    public init(aal: AuthenticatorAssuranceLevel? = nil, completedAt: Date? = nil, method: Method? = nil, provider: String? = nil) {
         self.aal = aal
         self.completedAt = completedAt
         self.method = method
+        self.provider = provider
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case aal
         case completedAt = "completed_at"
         case method
+        case provider
     }
 
     // Encodable protocol methods
@@ -47,6 +51,7 @@ public struct SessionAuthenticationMethod: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(aal, forKey: .aal)
         try container.encodeIfPresent(completedAt, forKey: .completedAt)
         try container.encodeIfPresent(method, forKey: .method)
+        try container.encodeIfPresent(provider, forKey: .provider)
     }
 }
 

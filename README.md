@@ -41,6 +41,7 @@ Class | Method | HTTP request | Description
 *FrontendAPI* | [**createNativeVerificationFlow**](docs/FrontendAPI.md#createnativeverificationflow) | **GET** /self-service/verification/api | Create Verification Flow for Native Apps
 *FrontendAPI* | [**disableMyOtherSessions**](docs/FrontendAPI.md#disablemyothersessions) | **DELETE** /sessions | Disable my other sessions
 *FrontendAPI* | [**disableMySession**](docs/FrontendAPI.md#disablemysession) | **DELETE** /sessions/{id} | Disable one of my sessions
+*FrontendAPI* | [**exchangeSessionToken**](docs/FrontendAPI.md#exchangesessiontoken) | **GET** /sessions/token-exchange | Exchange Session Token
 *FrontendAPI* | [**getFlowError**](docs/FrontendAPI.md#getflowerror) | **GET** /self-service/errors | Get User-Flow Errors
 *FrontendAPI* | [**getLoginFlow**](docs/FrontendAPI.md#getloginflow) | **GET** /self-service/login/flows | Get Login Flow
 *FrontendAPI* | [**getRecoveryFlow**](docs/FrontendAPI.md#getrecoveryflow) | **GET** /self-service/recovery/flows | Get Recovery Flow
@@ -145,6 +146,7 @@ Class | Method | HTTP request | Description
  - [SessionDevice](docs/SessionDevice.md)
  - [SettingsFlow](docs/SettingsFlow.md)
  - [SettingsFlowState](docs/SettingsFlowState.md)
+ - [SuccessfulCodeExchangeResponse](docs/SuccessfulCodeExchangeResponse.md)
  - [SuccessfulNativeLogin](docs/SuccessfulNativeLogin.md)
  - [SuccessfulNativeRegistration](docs/SuccessfulNativeRegistration.md)
  - [TokenPagination](docs/TokenPagination.md)
@@ -189,10 +191,13 @@ Class | Method | HTTP request | Description
  - [Version](docs/Version.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
 
-## oryAccessToken
+Authentication schemes defined for the API:
+<a id="oryAccessToken"></a>
+### oryAccessToken
 
 - **Type**: API key
 - **API key parameter name**: Authorization

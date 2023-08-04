@@ -268,11 +268,11 @@ open class IdentityAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func deleteIdentityCredentials(id: String, type: ModelType_deleteIdentityCredentials, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: Identity?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func deleteIdentityCredentials(id: String, type: ModelType_deleteIdentityCredentials, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return deleteIdentityCredentialsWithRequestBuilder(id: id, type: type).execute(apiResponseQueue) { result in
             switch result {
-            case let .success(response):
-                completion(response.body, nil)
+            case .success:
+                completion((), nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -288,9 +288,9 @@ open class IdentityAPI {
        - name: oryAccessToken
      - parameter id: (path) ID is the identity&#39;s ID. 
      - parameter type: (path) Type is the credential&#39;s Type. One of totp, webauthn, lookup 
-     - returns: RequestBuilder<Identity> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteIdentityCredentialsWithRequestBuilder(id: String, type: ModelType_deleteIdentityCredentials) -> RequestBuilder<Identity> {
+    open class func deleteIdentityCredentialsWithRequestBuilder(id: String, type: ModelType_deleteIdentityCredentials) -> RequestBuilder<Void> {
         var localVariablePath = "/admin/identities/{id}/credentials/{type}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -309,7 +309,7 @@ open class IdentityAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Identity>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = OpenAPIClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -465,15 +465,26 @@ open class IdentityAPI {
     }
 
     /**
+     * enum for parameter includeCredential
+     */
+    public enum IncludeCredential_getIdentity: String, CaseIterable {
+        case password = "password"
+        case totp = "totp"
+        case oidc = "oidc"
+        case webauthn = "webauthn"
+        case lookupSecret = "lookup_secret"
+    }
+
+    /**
      Get an Identity
      
      - parameter id: (path) ID must be set to the ID of identity you want to get 
-     - parameter includeCredential: (query) Include Credentials in Response  Currently, only &#x60;oidc&#x60; is supported. This will return the initial OAuth 2.0 Access, Refresh and (optionally) OpenID Connect ID Token. (optional)
+     - parameter includeCredential: (query) Include Credentials in Response  Include any credential, for example &#x60;password&#x60; or &#x60;oidc&#x60;, in the response. When set to &#x60;oidc&#x60;, This will return the initial OAuth 2.0 Access Token, OAuth 2.0 Refresh Token and the OpenID Connect ID Token if available. (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getIdentity(id: String, includeCredential: [String]? = nil, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: Identity?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func getIdentity(id: String, includeCredential: [IncludeCredential_getIdentity]? = nil, apiResponseQueue: DispatchQueue = OpenAPIClientAPI.apiResponseQueue, completion: @escaping ((_ data: Identity?, _ error: Error?) -> Void)) -> RequestTask {
         return getIdentityWithRequestBuilder(id: id, includeCredential: includeCredential).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -492,10 +503,10 @@ open class IdentityAPI {
        - type: apiKey Authorization (HEADER)
        - name: oryAccessToken
      - parameter id: (path) ID must be set to the ID of identity you want to get 
-     - parameter includeCredential: (query) Include Credentials in Response  Currently, only &#x60;oidc&#x60; is supported. This will return the initial OAuth 2.0 Access, Refresh and (optionally) OpenID Connect ID Token. (optional)
+     - parameter includeCredential: (query) Include Credentials in Response  Include any credential, for example &#x60;password&#x60; or &#x60;oidc&#x60;, in the response. When set to &#x60;oidc&#x60;, This will return the initial OAuth 2.0 Access Token, OAuth 2.0 Refresh Token and the OpenID Connect ID Token if available. (optional)
      - returns: RequestBuilder<Identity> 
      */
-    open class func getIdentityWithRequestBuilder(id: String, includeCredential: [String]? = nil) -> RequestBuilder<Identity> {
+    open class func getIdentityWithRequestBuilder(id: String, includeCredential: [IncludeCredential_getIdentity]? = nil) -> RequestBuilder<Identity> {
         var localVariablePath = "/admin/identities/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

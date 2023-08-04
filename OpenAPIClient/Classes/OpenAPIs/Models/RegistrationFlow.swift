@@ -19,19 +19,22 @@ public struct RegistrationFlow: Codable, JSONEncodable, Hashable {
     public var id: String
     /** IssuedAt is the time (UTC) when the flow occurred. */
     public var issuedAt: Date
+    /** Ory OAuth 2.0 Login Challenge.  This value is set using the `login_challenge` query parameter of the registration and login endpoints. If set will cooperate with Ory OAuth2 and OpenID to act as an OAuth2 server / OpenID Provider. */
     public var oauth2LoginChallenge: String?
     public var oauth2LoginRequest: OAuth2LoginRequest?
     /** RequestURL is the initial URL that was requested from Ory Kratos. It can be used to forward information contained in the URL's path or query for example. */
     public var requestUrl: String
     /** ReturnTo contains the requested return_to URL. */
     public var returnTo: String?
+    /** SessionTokenExchangeCode holds the secret code that the client can use to retrieve a session token after the flow has been completed. This is only set if the client has requested a session token exchange code, and if the flow is of type \"api\", and only on creating the flow. */
+    public var sessionTokenExchangeCode: String?
     /** TransientPayload is used to pass data from the registration to a webhook */
     public var transientPayload: AnyCodable?
     /** The flow type can either be `api` or `browser`. */
     public var type: String
     public var ui: UiContainer
 
-    public init(active: IdentityCredentialsType? = nil, expiresAt: Date, id: String, issuedAt: Date, oauth2LoginChallenge: String? = nil, oauth2LoginRequest: OAuth2LoginRequest? = nil, requestUrl: String, returnTo: String? = nil, transientPayload: AnyCodable? = nil, type: String, ui: UiContainer) {
+    public init(active: IdentityCredentialsType? = nil, expiresAt: Date, id: String, issuedAt: Date, oauth2LoginChallenge: String? = nil, oauth2LoginRequest: OAuth2LoginRequest? = nil, requestUrl: String, returnTo: String? = nil, sessionTokenExchangeCode: String? = nil, transientPayload: AnyCodable? = nil, type: String, ui: UiContainer) {
         self.active = active
         self.expiresAt = expiresAt
         self.id = id
@@ -40,6 +43,7 @@ public struct RegistrationFlow: Codable, JSONEncodable, Hashable {
         self.oauth2LoginRequest = oauth2LoginRequest
         self.requestUrl = requestUrl
         self.returnTo = returnTo
+        self.sessionTokenExchangeCode = sessionTokenExchangeCode
         self.transientPayload = transientPayload
         self.type = type
         self.ui = ui
@@ -54,6 +58,7 @@ public struct RegistrationFlow: Codable, JSONEncodable, Hashable {
         case oauth2LoginRequest = "oauth2_login_request"
         case requestUrl = "request_url"
         case returnTo = "return_to"
+        case sessionTokenExchangeCode = "session_token_exchange_code"
         case transientPayload = "transient_payload"
         case type
         case ui
@@ -71,6 +76,7 @@ public struct RegistrationFlow: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(oauth2LoginRequest, forKey: .oauth2LoginRequest)
         try container.encode(requestUrl, forKey: .requestUrl)
         try container.encodeIfPresent(returnTo, forKey: .returnTo)
+        try container.encodeIfPresent(sessionTokenExchangeCode, forKey: .sessionTokenExchangeCode)
         try container.encodeIfPresent(transientPayload, forKey: .transientPayload)
         try container.encode(type, forKey: .type)
         try container.encode(ui, forKey: .ui)

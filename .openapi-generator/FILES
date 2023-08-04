@@ -77,6 +77,7 @@ OpenAPIClient/Classes/OpenAPIs/Models/SessionAuthenticationMethod.swift
 OpenAPIClient/Classes/OpenAPIs/Models/SessionDevice.swift
 OpenAPIClient/Classes/OpenAPIs/Models/SettingsFlow.swift
 OpenAPIClient/Classes/OpenAPIs/Models/SettingsFlowState.swift
+OpenAPIClient/Classes/OpenAPIs/Models/SuccessfulCodeExchangeResponse.swift
 OpenAPIClient/Classes/OpenAPIs/Models/SuccessfulNativeLogin.swift
 OpenAPIClient/Classes/OpenAPIs/Models/SuccessfulNativeRegistration.swift
 OpenAPIClient/Classes/OpenAPIs/Models/TokenPagination.swift
@@ -192,6 +193,7 @@ docs/SessionAuthenticationMethod.md
 docs/SessionDevice.md
 docs/SettingsFlow.md
 docs/SettingsFlowState.md
+docs/SuccessfulCodeExchangeResponse.md
 docs/SuccessfulNativeLogin.md
 docs/SuccessfulNativeRegistration.md
 docs/TokenPagination.md

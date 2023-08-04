@@ -276,7 +276,7 @@ Void (empty response body)
 
 # **deleteIdentityCredentials**
 ```swift
-    open class func deleteIdentityCredentials(id: String, type: ModelType_deleteIdentityCredentials, completion: @escaping (_ data: Identity?, _ error: Error?) -> Void)
+    open class func deleteIdentityCredentials(id: String, type: ModelType_deleteIdentityCredentials, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Delete a credential for a specific identity
@@ -313,7 +313,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Identity**](Identity.md)
+Void (empty response body)
 
 ### Authorization
 
@@ -478,7 +478,7 @@ Name | Type | Description  | Notes
 
 # **getIdentity**
 ```swift
-    open class func getIdentity(id: String, includeCredential: [String]? = nil, completion: @escaping (_ data: Identity?, _ error: Error?) -> Void)
+    open class func getIdentity(id: String, includeCredential: [IncludeCredential_getIdentity]? = nil, completion: @escaping (_ data: Identity?, _ error: Error?) -> Void)
 ```
 
 Get an Identity
@@ -491,7 +491,7 @@ Return an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model
 import OpenAPIClient
 
 let id = "id_example" // String | ID must be set to the ID of identity you want to get
-let includeCredential = ["inner_example"] // [String] | Include Credentials in Response  Currently, only `oidc` is supported. This will return the initial OAuth 2.0 Access, Refresh and (optionally) OpenID Connect ID Token. (optional)
+let includeCredential = ["includeCredential_example"] // [String] | Include Credentials in Response  Include any credential, for example `password` or `oidc`, in the response. When set to `oidc`, This will return the initial OAuth 2.0 Access Token, OAuth 2.0 Refresh Token and the OpenID Connect ID Token if available. (optional)
 
 // Get an Identity
 IdentityAPI.getIdentity(id: id, includeCredential: includeCredential) { (response, error) in
@@ -511,7 +511,7 @@ IdentityAPI.getIdentity(id: id, includeCredential: includeCredential) { (respons
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **String** | ID must be set to the ID of identity you want to get | 
- **includeCredential** | [**[String]**](String.md) | Include Credentials in Response  Currently, only &#x60;oidc&#x60; is supported. This will return the initial OAuth 2.0 Access, Refresh and (optionally) OpenID Connect ID Token. | [optional] 
+ **includeCredential** | [**[String]**](String.md) | Include Credentials in Response  Include any credential, for example &#x60;password&#x60; or &#x60;oidc&#x60;, in the response. When set to &#x60;oidc&#x60;, This will return the initial OAuth 2.0 Access Token, OAuth 2.0 Refresh Token and the OpenID Connect ID Token if available. | [optional] 
 
 ### Return type
 

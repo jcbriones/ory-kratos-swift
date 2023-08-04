@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**createNativeVerificationFlow**](FrontendAPI.md#createnativeverificationflow) | **GET** /self-service/verification/api | Create Verification Flow for Native Apps
 [**disableMyOtherSessions**](FrontendAPI.md#disablemyothersessions) | **DELETE** /sessions | Disable my other sessions
 [**disableMySession**](FrontendAPI.md#disablemysession) | **DELETE** /sessions/{id} | Disable one of my sessions
+[**exchangeSessionToken**](FrontendAPI.md#exchangesessiontoken) | **GET** /sessions/token-exchange | Exchange Session Token
 [**getFlowError**](FrontendAPI.md#getflowerror) | **GET** /self-service/errors | Get User-Flow Errors
 [**getLoginFlow**](FrontendAPI.md#getloginflow) | **GET** /self-service/login/flows | Get Login Flow
 [**getRecoveryFlow**](FrontendAPI.md#getrecoveryflow) | **GET** /self-service/recovery/flows | Get Recovery Flow
@@ -95,7 +96,7 @@ No authorization required
 
 # **createBrowserLogoutFlow**
 ```swift
-    open class func createBrowserLogoutFlow(cookie: String? = nil, completion: @escaping (_ data: LogoutFlow?, _ error: Error?) -> Void)
+    open class func createBrowserLogoutFlow(cookie: String? = nil, returnTo: String? = nil, completion: @escaping (_ data: LogoutFlow?, _ error: Error?) -> Void)
 ```
 
 Create a Logout URL for Browsers
@@ -108,9 +109,10 @@ This endpoint initializes a browser-based user logout flow and a URL which can b
 import OpenAPIClient
 
 let cookie = "cookie_example" // String | HTTP Cookies  If you call this endpoint from a backend, please include the original Cookie header in the request. (optional)
+let returnTo = "returnTo_example" // String | Return to URL  The URL to which the browser should be redirected to after the logout has been performed. (optional)
 
 // Create a Logout URL for Browsers
-FrontendAPI.createBrowserLogoutFlow(cookie: cookie) { (response, error) in
+FrontendAPI.createBrowserLogoutFlow(cookie: cookie, returnTo: returnTo) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -127,6 +129,7 @@ FrontendAPI.createBrowserLogoutFlow(cookie: cookie) { (response, error) in
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **cookie** | **String** | HTTP Cookies  If you call this endpoint from a backend, please include the original Cookie header in the request. | [optional] 
+ **returnTo** | **String** | Return to URL  The URL to which the browser should be redirected to after the logout has been performed. | [optional] 
 
 ### Return type
 
@@ -351,7 +354,7 @@ No authorization required
 
 # **createNativeLoginFlow**
 ```swift
-    open class func createNativeLoginFlow(refresh: Bool? = nil, aal: String? = nil, xSessionToken: String? = nil, completion: @escaping (_ data: LoginFlow?, _ error: Error?) -> Void)
+    open class func createNativeLoginFlow(refresh: Bool? = nil, aal: String? = nil, xSessionToken: String? = nil, returnSessionTokenExchangeCode: Bool? = nil, returnTo: String? = nil, completion: @escaping (_ data: LoginFlow?, _ error: Error?) -> Void)
 ```
 
 Create Login Flow for Native Apps
@@ -366,9 +369,11 @@ import OpenAPIClient
 let refresh = true // Bool | Refresh a login session  If set to true, this will refresh an existing login session by asking the user to sign in again. This will reset the authenticated_at time of the session. (optional)
 let aal = "aal_example" // String | Request a Specific AuthenticationMethod Assurance Level  Use this parameter to upgrade an existing session's authenticator assurance level (AAL). This allows you to ask for multi-factor authentication. When an identity sign in using e.g. username+password, the AAL is 1. If you wish to \"upgrade\" the session's security by asking the user to perform TOTP / WebAuth/ ... you would set this to \"aal2\". (optional)
 let xSessionToken = "xSessionToken_example" // String | The Session Token of the Identity performing the settings flow. (optional)
+let returnSessionTokenExchangeCode = true // Bool | EnableSessionTokenExchangeCode requests the login flow to include a code that can be used to retrieve the session token after the login flow has been completed. (optional)
+let returnTo = "returnTo_example" // String | The URL to return the browser to after the flow was completed. (optional)
 
 // Create Login Flow for Native Apps
-FrontendAPI.createNativeLoginFlow(refresh: refresh, aal: aal, xSessionToken: xSessionToken) { (response, error) in
+FrontendAPI.createNativeLoginFlow(refresh: refresh, aal: aal, xSessionToken: xSessionToken, returnSessionTokenExchangeCode: returnSessionTokenExchangeCode, returnTo: returnTo) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -387,6 +392,8 @@ Name | Type | Description  | Notes
  **refresh** | **Bool** | Refresh a login session  If set to true, this will refresh an existing login session by asking the user to sign in again. This will reset the authenticated_at time of the session. | [optional] 
  **aal** | **String** | Request a Specific AuthenticationMethod Assurance Level  Use this parameter to upgrade an existing session&#39;s authenticator assurance level (AAL). This allows you to ask for multi-factor authentication. When an identity sign in using e.g. username+password, the AAL is 1. If you wish to \&quot;upgrade\&quot; the session&#39;s security by asking the user to perform TOTP / WebAuth/ ... you would set this to \&quot;aal2\&quot;. | [optional] 
  **xSessionToken** | **String** | The Session Token of the Identity performing the settings flow. | [optional] 
+ **returnSessionTokenExchangeCode** | **Bool** | EnableSessionTokenExchangeCode requests the login flow to include a code that can be used to retrieve the session token after the login flow has been completed. | [optional] 
+ **returnTo** | **String** | The URL to return the browser to after the flow was completed. | [optional] 
 
 ### Return type
 
@@ -451,7 +458,7 @@ No authorization required
 
 # **createNativeRegistrationFlow**
 ```swift
-    open class func createNativeRegistrationFlow(completion: @escaping (_ data: RegistrationFlow?, _ error: Error?) -> Void)
+    open class func createNativeRegistrationFlow(returnSessionTokenExchangeCode: Bool? = nil, returnTo: String? = nil, completion: @escaping (_ data: RegistrationFlow?, _ error: Error?) -> Void)
 ```
 
 Create Registration Flow for Native Apps
@@ -463,9 +470,11 @@ This endpoint initiates a registration flow for API clients such as mobile devic
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import OpenAPIClient
 
+let returnSessionTokenExchangeCode = true // Bool | EnableSessionTokenExchangeCode requests the login flow to include a code that can be used to retrieve the session token after the login flow has been completed. (optional)
+let returnTo = "returnTo_example" // String | The URL to return the browser to after the flow was completed. (optional)
 
 // Create Registration Flow for Native Apps
-FrontendAPI.createNativeRegistrationFlow() { (response, error) in
+FrontendAPI.createNativeRegistrationFlow(returnSessionTokenExchangeCode: returnSessionTokenExchangeCode, returnTo: returnTo) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -478,7 +487,11 @@ FrontendAPI.createNativeRegistrationFlow() { (response, error) in
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **returnSessionTokenExchangeCode** | **Bool** | EnableSessionTokenExchangeCode requests the login flow to include a code that can be used to retrieve the session token after the login flow has been completed. | [optional] 
+ **returnTo** | **String** | The URL to return the browser to after the flow was completed. | [optional] 
 
 ### Return type
 
@@ -685,6 +698,56 @@ Name | Type | Description  | Notes
 ### Return type
 
 Void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **exchangeSessionToken**
+```swift
+    open class func exchangeSessionToken(initCode: String, returnToCode: String, completion: @escaping (_ data: SuccessfulNativeLogin?, _ error: Error?) -> Void)
+```
+
+Exchange Session Token
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import OpenAPIClient
+
+let initCode = "initCode_example" // String | The part of the code return when initializing the flow.
+let returnToCode = "returnToCode_example" // String | The part of the code returned by the return_to URL.
+
+// Exchange Session Token
+FrontendAPI.exchangeSessionToken(initCode: initCode, returnToCode: returnToCode) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **initCode** | **String** | The part of the code return when initializing the flow. | 
+ **returnToCode** | **String** | The part of the code returned by the return_to URL. | 
+
+### Return type
+
+[**SuccessfulNativeLogin**](SuccessfulNativeLogin.md)
 
 ### Authorization
 
@@ -1168,7 +1231,7 @@ No authorization required
 
 Check Who the Current HTTP Session Belongs To
 
-Uses the HTTP Headers in the GET request to determine (e.g. by using checking the cookies) who is authenticated. Returns a session object in the body or 401 if the credentials are invalid or no credentials were sent. When the request it successful it adds the user ID to the 'X-Kratos-Authenticated-Identity-Id' header in the response.  If you call this endpoint from a server-side application, you must forward the HTTP Cookie Header to this endpoint:  ```js pseudo-code example router.get('/protected-endpoint', async function (req, res) { const session = await client.toSession(undefined, req.header('cookie'))  console.log(session) }) ```  When calling this endpoint from a non-browser application (e.g. mobile app) you must include the session token:  ```js pseudo-code example ... const session = await client.toSession(\"the-session-token\")  console.log(session) ```  Depending on your configuration this endpoint might return a 403 status code if the session has a lower Authenticator Assurance Level (AAL) than is possible for the identity. This can happen if the identity has password + webauthn credentials (which would result in AAL2) but the session has only AAL1. If this error occurs, ask the user to sign in with the second factor or change the configuration.  This endpoint is useful for:  AJAX calls. Remember to send credentials and set up CORS correctly! Reverse proxies and API Gateways Server-side calls - use the `X-Session-Token` header!  This endpoint authenticates users by checking:  if the `Cookie` HTTP header was set containing an Ory Kratos Session Cookie; if the `Authorization: bearer <ory-session-token>` HTTP header was set with a valid Ory Kratos Session Token; if the `X-Session-Token` HTTP header was set with a valid Ory Kratos Session Token.  If none of these headers are set or the cooke or token are invalid, the endpoint returns a HTTP 401 status code.  As explained above, this request may fail due to several reasons. The `error.id` can be one of:  `session_inactive`: No active session was found in the request (e.g. no Ory Session Cookie / Ory Session Token). `session_aal2_required`: An active session was found but it does not fulfil the Authenticator Assurance Level, implying that the session must (e.g.) authenticate the second factor.
+Uses the HTTP Headers in the GET request to determine (e.g. by using checking the cookies) who is authenticated. Returns a session object in the body or 401 if the credentials are invalid or no credentials were sent. When the request it successful it adds the user ID to the 'X-Kratos-Authenticated-Identity-Id' header in the response.  If you call this endpoint from a server-side application, you must forward the HTTP Cookie Header to this endpoint:  ```js pseudo-code example router.get('/protected-endpoint', async function (req, res) { const session = await client.toSession(undefined, req.header('cookie'))  console.log(session) }) ```  When calling this endpoint from a non-browser application (e.g. mobile app) you must include the session token:  ```js pseudo-code example ... const session = await client.toSession(\"the-session-token\")  console.log(session) ```  Depending on your configuration this endpoint might return a 403 status code if the session has a lower Authenticator Assurance Level (AAL) than is possible for the identity. This can happen if the identity has password + webauthn credentials (which would result in AAL2) but the session has only AAL1. If this error occurs, ask the user to sign in with the second factor or change the configuration.  This endpoint is useful for:  AJAX calls. Remember to send credentials and set up CORS correctly! Reverse proxies and API Gateways Server-side calls - use the `X-Session-Token` header!  This endpoint authenticates users by checking:  if the `Cookie` HTTP header was set containing an Ory Kratos Session Cookie; if the `Authorization: bearer <ory-session-token>` HTTP header was set with a valid Ory Kratos Session Token; if the `X-Session-Token` HTTP header was set with a valid Ory Kratos Session Token.  If none of these headers are set or the cookie or token are invalid, the endpoint returns a HTTP 401 status code.  As explained above, this request may fail due to several reasons. The `error.id` can be one of:  `session_inactive`: No active session was found in the request (e.g. no Ory Session Cookie / Ory Session Token). `session_aal2_required`: An active session was found but it does not fulfil the Authenticator Assurance Level, implying that the session must (e.g.) authenticate the second factor.
 
 ### Example
 ```swift
@@ -1271,7 +1334,7 @@ No authorization required
 
 # **updateLogoutFlow**
 ```swift
-    open class func updateLogoutFlow(token: String? = nil, returnTo: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func updateLogoutFlow(token: String? = nil, returnTo: String? = nil, cookie: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Update Logout Flow
@@ -1285,9 +1348,10 @@ import OpenAPIClient
 
 let token = "token_example" // String | A Valid Logout Token  If you do not have a logout token because you only have a session cookie, call `/self-service/logout/browser` to generate a URL for this endpoint. (optional)
 let returnTo = "returnTo_example" // String | The URL to return to after the logout was completed. (optional)
+let cookie = "cookie_example" // String | HTTP Cookies  When using the SDK in a browser app, on the server side you must include the HTTP Cookie Header sent by the client to your server here. This ensures that CSRF and session cookies are respected. (optional)
 
 // Update Logout Flow
-FrontendAPI.updateLogoutFlow(token: token, returnTo: returnTo) { (response, error) in
+FrontendAPI.updateLogoutFlow(token: token, returnTo: returnTo, cookie: cookie) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -1305,6 +1369,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **token** | **String** | A Valid Logout Token  If you do not have a logout token because you only have a session cookie, call &#x60;/self-service/logout/browser&#x60; to generate a URL for this endpoint. | [optional] 
  **returnTo** | **String** | The URL to return to after the logout was completed. | [optional] 
+ **cookie** | **String** | HTTP Cookies  When using the SDK in a browser app, on the server side you must include the HTTP Cookie Header sent by the client to your server here. This ensures that CSRF and session cookies are respected. | [optional] 
 
 ### Return type
 
