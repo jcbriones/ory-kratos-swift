@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 # **getVersion**
 ```swift
-    open class func getVersion(completion: @escaping (_ data: GetVersion200Response?, _ error: Error?) -> Void)
+    open class func getVersion(completion: @escaping (_ data: OryGetVersion200Response?, _ error: Error?) -> Void)
 ```
 
 Return Running Software Version.
@@ -21,7 +21,7 @@ This endpoint returns the version of Ory Kratos.  If the service supports TLS Ed
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 
 // Return Running Software Version.
@@ -42,7 +42,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**GetVersion200Response**](GetVersion200Response.md)
+[**OryGetVersion200Response**](OryGetVersion200Response.md)
 
 ### Authorization
 
@@ -57,7 +57,7 @@ No authorization required
 
 # **isAlive**
 ```swift
-    open class func isAlive(completion: @escaping (_ data: IsAlive200Response?, _ error: Error?) -> Void)
+    open class func isAlive(completion: @escaping (_ data: OryIsAlive200Response?, _ error: Error?) -> Void)
 ```
 
 Check HTTP Server Status
@@ -67,7 +67,7 @@ This endpoint returns a HTTP 200 status code when Ory Kratos is accepting incomi
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 
 // Check HTTP Server Status
@@ -88,7 +88,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**IsAlive200Response**](IsAlive200Response.md)
+[**OryIsAlive200Response**](OryIsAlive200Response.md)
 
 ### Authorization
 
@@ -103,7 +103,7 @@ No authorization required
 
 # **isReady**
 ```swift
-    open class func isReady(completion: @escaping (_ data: IsAlive200Response?, _ error: Error?) -> Void)
+    open class func isReady(completion: @escaping (_ data: OryIsAlive200Response?, _ error: Error?) -> Void)
 ```
 
 Check HTTP Server and Database Status
@@ -113,7 +113,7 @@ This endpoint returns a HTTP 200 status code when Ory Kratos is up running and t
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 
 // Check HTTP Server and Database Status
@@ -134,7 +134,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**IsAlive200Response**](IsAlive200Response.md)
+[**OryIsAlive200Response**](OryIsAlive200Response.md)
 
 ### Authorization
 

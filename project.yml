@@ -1,10 +1,10 @@
-name: OpenAPIClient
+name: OryKratosSwift
 targets:
-  OpenAPIClient:
+  OryKratosSwift:
     type: framework
     platform: iOS
-    deploymentTarget: "9.0"
-    sources: [OpenAPIClient]
+    deploymentTarget: "11.0"
+    sources: [Sources]
     info:
       path: ./Info.plist
       version: 
@@ -12,4 +12,3 @@ targets:
       APPLICATION_EXTENSION_API_ONLY: true
     scheme: {}
     dependencies:
-    - carthage: AnyCodable

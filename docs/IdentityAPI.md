@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**batchPatchIdentities**](IdentityAPI.md#batchpatchidentities) | **PATCH** /admin/identities | Create and deletes multiple identities
+[**batchPatchIdentities**](IdentityAPI.md#batchpatchidentities) | **PATCH** /admin/identities | Create multiple identities
 [**createIdentity**](IdentityAPI.md#createidentity) | **POST** /admin/identities | Create an Identity
 [**createRecoveryCodeForIdentity**](IdentityAPI.md#createrecoverycodeforidentity) | **POST** /admin/recovery/code | Create a Recovery Code
 [**createRecoveryLinkForIdentity**](IdentityAPI.md#createrecoverylinkforidentity) | **POST** /admin/recovery/link | Create a Recovery Link
@@ -26,22 +26,22 @@ Method | HTTP request | Description
 
 # **batchPatchIdentities**
 ```swift
-    open class func batchPatchIdentities(patchIdentitiesBody: PatchIdentitiesBody? = nil, completion: @escaping (_ data: BatchPatchIdentitiesResponse?, _ error: Error?) -> Void)
+    open class func batchPatchIdentities(oryPatchIdentitiesBody: OryPatchIdentitiesBody? = nil, completion: @escaping (_ data: OryBatchPatchIdentitiesResponse?, _ error: Error?) -> Void)
 ```
 
-Create and deletes multiple identities
+Create multiple identities
 
-Creates or delete multiple [identities](https://www.ory.sh/docs/kratos/concepts/identity-user-model). This endpoint can also be used to [import credentials](https://www.ory.sh/docs/kratos/manage-identities/import-user-accounts-identities) for instance passwords, social sign in configurations or multifactor methods.
+Creates multiple [identities](https://www.ory.sh/docs/kratos/concepts/identity-user-model). This endpoint can also be used to [import credentials](https://www.ory.sh/docs/kratos/manage-identities/import-user-accounts-identities) for instance passwords, social sign in configurations or multifactor methods.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
-let patchIdentitiesBody = patchIdentitiesBody(identities: [identityPatch(create: createIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example"), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: 123, metadataPublic: 123, recoveryAddresses: [recoveryIdentityAddress(createdAt: Date(), id: "id_example", updatedAt: Date(), value: "value_example", via: "via_example")], schemaId: "schemaId_example", state: identityState(), traits: 123, verifiableAddresses: [verifiableIdentityAddress(createdAt: Date(), id: "id_example", status: "status_example", updatedAt: Date(), value: "value_example", verified: true, verifiedAt: Date(), via: "via_example")]), patchId: "patchId_example")]) // PatchIdentitiesBody |  (optional)
+let oryPatchIdentitiesBody = patchIdentitiesBody(identities: [identityPatch(create: createIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example", usePasswordMigrationHook: false), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: 123, metadataPublic: 123, recoveryAddresses: [recoveryIdentityAddress(createdAt: Date(), id: "id_example", updatedAt: Date(), value: "value_example", via: "via_example")], schemaId: "schemaId_example", state: "state_example", traits: 123, verifiableAddresses: [verifiableIdentityAddress(createdAt: Date(), id: "id_example", status: "status_example", updatedAt: Date(), value: "value_example", verified: true, verifiedAt: Date(), via: "via_example")]), patchId: "patchId_example")]) // OryPatchIdentitiesBody |  (optional)
 
-// Create and deletes multiple identities
-IdentityAPI.batchPatchIdentities(patchIdentitiesBody: patchIdentitiesBody) { (response, error) in
+// Create multiple identities
+IdentityAPI.batchPatchIdentities(oryPatchIdentitiesBody: oryPatchIdentitiesBody) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -57,11 +57,11 @@ IdentityAPI.batchPatchIdentities(patchIdentitiesBody: patchIdentitiesBody) { (re
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **patchIdentitiesBody** | [**PatchIdentitiesBody**](PatchIdentitiesBody.md) |  | [optional] 
+ **oryPatchIdentitiesBody** | [**OryPatchIdentitiesBody**](OryPatchIdentitiesBody.md) |  | [optional] 
 
 ### Return type
 
-[**BatchPatchIdentitiesResponse**](BatchPatchIdentitiesResponse.md)
+[**OryBatchPatchIdentitiesResponse**](OryBatchPatchIdentitiesResponse.md)
 
 ### Authorization
 
@@ -76,7 +76,7 @@ Name | Type | Description  | Notes
 
 # **createIdentity**
 ```swift
-    open class func createIdentity(createIdentityBody: CreateIdentityBody? = nil, completion: @escaping (_ data: Identity?, _ error: Error?) -> Void)
+    open class func createIdentity(oryCreateIdentityBody: OryCreateIdentityBody? = nil, completion: @escaping (_ data: OryIdentity?, _ error: Error?) -> Void)
 ```
 
 Create an Identity
@@ -86,12 +86,12 @@ Create an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
-let createIdentityBody = createIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example"), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: 123, metadataPublic: 123, recoveryAddresses: [recoveryIdentityAddress(createdAt: Date(), id: "id_example", updatedAt: Date(), value: "value_example", via: "via_example")], schemaId: "schemaId_example", state: identityState(), traits: 123, verifiableAddresses: [verifiableIdentityAddress(createdAt: Date(), id: "id_example", status: "status_example", updatedAt: Date(), value: "value_example", verified: true, verifiedAt: Date(), via: "via_example")]) // CreateIdentityBody |  (optional)
+let oryCreateIdentityBody = createIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example", usePasswordMigrationHook: false), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: 123, metadataPublic: 123, recoveryAddresses: [recoveryIdentityAddress(createdAt: Date(), id: "id_example", updatedAt: Date(), value: "value_example", via: "via_example")], schemaId: "schemaId_example", state: "state_example", traits: 123, verifiableAddresses: [verifiableIdentityAddress(createdAt: Date(), id: "id_example", status: "status_example", updatedAt: Date(), value: "value_example", verified: true, verifiedAt: Date(), via: "via_example")]) // OryCreateIdentityBody |  (optional)
 
 // Create an Identity
-IdentityAPI.createIdentity(createIdentityBody: createIdentityBody) { (response, error) in
+IdentityAPI.createIdentity(oryCreateIdentityBody: oryCreateIdentityBody) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -107,11 +107,11 @@ IdentityAPI.createIdentity(createIdentityBody: createIdentityBody) { (response, 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createIdentityBody** | [**CreateIdentityBody**](CreateIdentityBody.md) |  | [optional] 
+ **oryCreateIdentityBody** | [**OryCreateIdentityBody**](OryCreateIdentityBody.md) |  | [optional] 
 
 ### Return type
 
-[**Identity**](Identity.md)
+[**OryIdentity**](OryIdentity.md)
 
 ### Authorization
 
@@ -126,7 +126,7 @@ Name | Type | Description  | Notes
 
 # **createRecoveryCodeForIdentity**
 ```swift
-    open class func createRecoveryCodeForIdentity(createRecoveryCodeForIdentityBody: CreateRecoveryCodeForIdentityBody? = nil, completion: @escaping (_ data: RecoveryCodeForIdentity?, _ error: Error?) -> Void)
+    open class func createRecoveryCodeForIdentity(oryCreateRecoveryCodeForIdentityBody: OryCreateRecoveryCodeForIdentityBody? = nil, completion: @escaping (_ data: OryRecoveryCodeForIdentity?, _ error: Error?) -> Void)
 ```
 
 Create a Recovery Code
@@ -136,12 +136,12 @@ This endpoint creates a recovery code which should be given to the user in order
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
-let createRecoveryCodeForIdentityBody = createRecoveryCodeForIdentityBody(expiresIn: "expiresIn_example", identityId: "identityId_example") // CreateRecoveryCodeForIdentityBody |  (optional)
+let oryCreateRecoveryCodeForIdentityBody = createRecoveryCodeForIdentityBody(expiresIn: "expiresIn_example", flowType: "flowType_example", identityId: "identityId_example") // OryCreateRecoveryCodeForIdentityBody |  (optional)
 
 // Create a Recovery Code
-IdentityAPI.createRecoveryCodeForIdentity(createRecoveryCodeForIdentityBody: createRecoveryCodeForIdentityBody) { (response, error) in
+IdentityAPI.createRecoveryCodeForIdentity(oryCreateRecoveryCodeForIdentityBody: oryCreateRecoveryCodeForIdentityBody) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -157,11 +157,11 @@ IdentityAPI.createRecoveryCodeForIdentity(createRecoveryCodeForIdentityBody: cre
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createRecoveryCodeForIdentityBody** | [**CreateRecoveryCodeForIdentityBody**](CreateRecoveryCodeForIdentityBody.md) |  | [optional] 
+ **oryCreateRecoveryCodeForIdentityBody** | [**OryCreateRecoveryCodeForIdentityBody**](OryCreateRecoveryCodeForIdentityBody.md) |  | [optional] 
 
 ### Return type
 
-[**RecoveryCodeForIdentity**](RecoveryCodeForIdentity.md)
+[**OryRecoveryCodeForIdentity**](OryRecoveryCodeForIdentity.md)
 
 ### Authorization
 
@@ -176,7 +176,7 @@ Name | Type | Description  | Notes
 
 # **createRecoveryLinkForIdentity**
 ```swift
-    open class func createRecoveryLinkForIdentity(createRecoveryLinkForIdentityBody: CreateRecoveryLinkForIdentityBody? = nil, completion: @escaping (_ data: RecoveryLinkForIdentity?, _ error: Error?) -> Void)
+    open class func createRecoveryLinkForIdentity(returnTo: String? = nil, oryCreateRecoveryLinkForIdentityBody: OryCreateRecoveryLinkForIdentityBody? = nil, completion: @escaping (_ data: OryRecoveryLinkForIdentity?, _ error: Error?) -> Void)
 ```
 
 Create a Recovery Link
@@ -186,12 +186,13 @@ This endpoint creates a recovery link which should be given to the user in order
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
-let createRecoveryLinkForIdentityBody = createRecoveryLinkForIdentityBody(expiresIn: "expiresIn_example", identityId: "identityId_example") // CreateRecoveryLinkForIdentityBody |  (optional)
+let returnTo = "returnTo_example" // String |  (optional)
+let oryCreateRecoveryLinkForIdentityBody = createRecoveryLinkForIdentityBody(expiresIn: "expiresIn_example", identityId: "identityId_example") // OryCreateRecoveryLinkForIdentityBody |  (optional)
 
 // Create a Recovery Link
-IdentityAPI.createRecoveryLinkForIdentity(createRecoveryLinkForIdentityBody: createRecoveryLinkForIdentityBody) { (response, error) in
+IdentityAPI.createRecoveryLinkForIdentity(returnTo: returnTo, oryCreateRecoveryLinkForIdentityBody: oryCreateRecoveryLinkForIdentityBody) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -207,11 +208,12 @@ IdentityAPI.createRecoveryLinkForIdentity(createRecoveryLinkForIdentityBody: cre
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createRecoveryLinkForIdentityBody** | [**CreateRecoveryLinkForIdentityBody**](CreateRecoveryLinkForIdentityBody.md) |  | [optional] 
+ **returnTo** | **String** |  | [optional] 
+ **oryCreateRecoveryLinkForIdentityBody** | [**OryCreateRecoveryLinkForIdentityBody**](OryCreateRecoveryLinkForIdentityBody.md) |  | [optional] 
 
 ### Return type
 
-[**RecoveryLinkForIdentity**](RecoveryLinkForIdentity.md)
+[**OryRecoveryLinkForIdentity**](OryRecoveryLinkForIdentity.md)
 
 ### Authorization
 
@@ -236,7 +238,7 @@ Calling this endpoint irrecoverably and permanently deletes the [identity](https
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID is the identity's ID.
 
@@ -276,23 +278,24 @@ Void (empty response body)
 
 # **deleteIdentityCredentials**
 ```swift
-    open class func deleteIdentityCredentials(id: String, type: ModelType_deleteIdentityCredentials, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func deleteIdentityCredentials(id: String, type: OryType_deleteIdentityCredentials, identifier: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Delete a credential for a specific identity
 
-Delete an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model) credential by its type You can only delete second factor (aal2) credentials.
+Delete an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model) credential by its type. You cannot delete password or code auth credentials through this API.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID is the identity's ID.
-let type = "type_example" // String | Type is the credential's Type. One of totp, webauthn, lookup
+let type = "type_example" // String | Type is the type of credentials to delete. password CredentialsTypePassword oidc CredentialsTypeOIDC totp CredentialsTypeTOTP lookup_secret CredentialsTypeLookup webauthn CredentialsTypeWebAuthn code CredentialsTypeCodeAuth passkey CredentialsTypePasskey profile CredentialsTypeProfile link_recovery CredentialsTypeRecoveryLink  CredentialsTypeRecoveryLink is a special credential type linked to the link strategy (recovery flow).  It is not used within the credentials object itself. code_recovery CredentialsTypeRecoveryCode
+let identifier = "identifier_example" // String | Identifier is the identifier of the OIDC credential to delete. Find the identifier by calling the `GET /admin/identities/{id}?include_credential=oidc` endpoint. (optional)
 
 // Delete a credential for a specific identity
-IdentityAPI.deleteIdentityCredentials(id: id, type: type) { (response, error) in
+IdentityAPI.deleteIdentityCredentials(id: id, type: type, identifier: identifier) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -309,7 +312,8 @@ IdentityAPI.deleteIdentityCredentials(id: id, type: type) { (response, error) in
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **String** | ID is the identity&#39;s ID. | 
- **type** | **String** | Type is the credential&#39;s Type. One of totp, webauthn, lookup | 
+ **type** | **String** | Type is the type of credentials to delete. password CredentialsTypePassword oidc CredentialsTypeOIDC totp CredentialsTypeTOTP lookup_secret CredentialsTypeLookup webauthn CredentialsTypeWebAuthn code CredentialsTypeCodeAuth passkey CredentialsTypePasskey profile CredentialsTypeProfile link_recovery CredentialsTypeRecoveryLink  CredentialsTypeRecoveryLink is a special credential type linked to the link strategy (recovery flow).  It is not used within the credentials object itself. code_recovery CredentialsTypeRecoveryCode | 
+ **identifier** | **String** | Identifier is the identifier of the OIDC credential to delete. Find the identifier by calling the &#x60;GET /admin/identities/{id}?include_credential&#x3D;oidc&#x60; endpoint. | [optional] 
 
 ### Return type
 
@@ -338,7 +342,7 @@ Calling this endpoint irrecoverably and permanently deletes and invalidates all 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID is the identity's ID.
 
@@ -388,7 +392,7 @@ Calling this endpoint deactivates the specified session. Session data is not del
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID is the session's ID.
 
@@ -428,17 +432,17 @@ Void (empty response body)
 
 # **extendSession**
 ```swift
-    open class func extendSession(id: String, completion: @escaping (_ data: Session?, _ error: Error?) -> Void)
+    open class func extendSession(id: String, completion: @escaping (_ data: OrySession?, _ error: Error?) -> Void)
 ```
 
 Extend a Session
 
-Calling this endpoint extends the given session ID. If `session.earliest_possible_extend` is set it will only extend the session after the specified time has passed.  Retrieve the session ID from the `/sessions/whoami` endpoint / `toSession` SDK method.
+Calling this endpoint extends the given session ID. If `session.earliest_possible_extend` is set it will only extend the session after the specified time has passed.  This endpoint returns per default a 204 No Content response on success. Older Ory Network projects may return a 200 OK response with the session in the body. Returning the session as part of the response will be deprecated in the future and should not be relied upon.  This endpoint ignores consecutive requests to extend the same session and returns a 404 error in those scenarios. This endpoint also returns 404 errors if the session does not exist.  Retrieve the session ID from the `/sessions/whoami` endpoint / `toSession` SDK method.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID is the session's ID.
 
@@ -463,7 +467,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Session**](Session.md)
+[**OrySession**](OrySession.md)
 
 ### Authorization
 
@@ -478,7 +482,7 @@ Name | Type | Description  | Notes
 
 # **getIdentity**
 ```swift
-    open class func getIdentity(id: String, includeCredential: [IncludeCredential_getIdentity]? = nil, completion: @escaping (_ data: Identity?, _ error: Error?) -> Void)
+    open class func getIdentity(id: String, includeCredential: [OryIncludeCredential_getIdentity]? = nil, completion: @escaping (_ data: OryIdentity?, _ error: Error?) -> Void)
 ```
 
 Get an Identity
@@ -488,7 +492,7 @@ Return an [identity](https://www.ory.sh/docs/kratos/concepts/identity-user-model
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID must be set to the ID of identity you want to get
 let includeCredential = ["includeCredential_example"] // [String] | Include Credentials in Response  Include any credential, for example `password` or `oidc`, in the response. When set to `oidc`, This will return the initial OAuth 2.0 Access Token, OAuth 2.0 Refresh Token and the OpenID Connect ID Token if available. (optional)
@@ -515,7 +519,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Identity**](Identity.md)
+[**OryIdentity**](OryIdentity.md)
 
 ### Authorization
 
@@ -530,7 +534,7 @@ Name | Type | Description  | Notes
 
 # **getIdentitySchema**
 ```swift
-    open class func getIdentitySchema(id: String, completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+    open class func getIdentitySchema(id: String, completion: @escaping (_ data: JSONValue?, _ error: Error?) -> Void)
 ```
 
 Get Identity JSON Schema
@@ -540,7 +544,7 @@ Return a specific identity schema.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID must be set to the ID of schema you want to get
 
@@ -565,7 +569,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AnyCodable**
+**JSONValue**
 
 ### Authorization
 
@@ -580,7 +584,7 @@ No authorization required
 
 # **getSession**
 ```swift
-    open class func getSession(id: String, expand: [Expand_getSession]? = nil, completion: @escaping (_ data: Session?, _ error: Error?) -> Void)
+    open class func getSession(id: String, expand: [OryExpand_getSession]? = nil, completion: @escaping (_ data: OrySession?, _ error: Error?) -> Void)
 ```
 
 Get Session
@@ -590,10 +594,10 @@ This endpoint is useful for:  Getting a session object with all specified expand
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID is the session's ID.
-let expand = ["inner_example"] // [String] | ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. Example - ?expand=Identity&expand=Devices If no value is provided, the expandable properties are skipped. (optional)
+let expand = ["expand_example"] // [String] | ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. Example - ?expand=Identity&expand=Devices If no value is provided, the expandable properties are skipped. (optional)
 
 // Get Session
 IdentityAPI.getSession(id: id, expand: expand) { (response, error) in
@@ -617,7 +621,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Session**](Session.md)
+[**OrySession**](OrySession.md)
 
 ### Authorization
 
@@ -632,7 +636,7 @@ Name | Type | Description  | Notes
 
 # **listIdentities**
 ```swift
-    open class func listIdentities(perPage: Int64? = nil, page: Int64? = nil, credentialsIdentifier: String? = nil, completion: @escaping (_ data: [Identity]?, _ error: Error?) -> Void)
+    open class func listIdentities(perPage: Int64? = nil, page: Int64? = nil, pageSize: Int64? = nil, pageToken: String? = nil, consistency: OryConsistency_listIdentities? = nil, ids: [String]? = nil, credentialsIdentifier: String? = nil, previewCredentialsIdentifierSimilar: String? = nil, includeCredential: [String]? = nil, completion: @escaping (_ data: [OryIdentity]?, _ error: Error?) -> Void)
 ```
 
 List Identities
@@ -642,14 +646,20 @@ Lists all [identities](https://www.ory.sh/docs/kratos/concepts/identity-user-mod
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
-let perPage = 987 // Int64 | Items per Page  This is the number of items per page. (optional) (default to 250)
-let page = 987 // Int64 | Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. (optional) (default to 1)
-let credentialsIdentifier = "credentialsIdentifier_example" // String | CredentialsIdentifier is the identifier (username, email) of the credentials to look up. (optional)
+let perPage = 987 // Int64 | Deprecated Items per Page  DEPRECATED: Please use `page_token` instead. This parameter will be removed in the future.  This is the number of items per page. (optional) (default to 250)
+let page = 987 // Int64 | Deprecated Pagination Page  DEPRECATED: Please use `page_token` instead. This parameter will be removed in the future.  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. The first page can be retrieved by omitting this parameter. Following page pointers will be returned in the `Link` header. (optional)
+let pageSize = 987 // Int64 | Page Size  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional) (default to 250)
+let pageToken = "pageToken_example" // String | Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional) (default to "1")
+let consistency = "consistency_example" // String | Read Consistency Level (preview)  The read consistency level determines the consistency guarantee for reads:  strong (slow): The read is guaranteed to return the most recent data committed at the start of the read. eventual (very fast): The result will return data that is about 4.8 seconds old.  The default consistency guarantee can be changed in the Ory Network Console or using the Ory CLI with `ory patch project --replace '/previews/default_read_consistency_level=\"strong\"'`.  Setting the default consistency level to `eventual` may cause regressions in the future as we add consistency controls to more APIs. Currently, the following APIs will be affected by this setting:  `GET /admin/identities`  This feature is in preview and only available in Ory Network.  ConsistencyLevelUnset  ConsistencyLevelUnset is the unset / default consistency level. strong ConsistencyLevelStrong  ConsistencyLevelStrong is the strong consistency level. eventual ConsistencyLevelEventual  ConsistencyLevelEventual is the eventual consistency level using follower read timestamps. (optional)
+let ids = ["inner_example"] // [String] | List of ids used to filter identities. If this list is empty, then no filter will be applied. (optional)
+let credentialsIdentifier = "credentialsIdentifier_example" // String | CredentialsIdentifier is the identifier (username, email) of the credentials to look up using exact match. Only one of CredentialsIdentifier and CredentialsIdentifierSimilar can be used. (optional)
+let previewCredentialsIdentifierSimilar = "previewCredentialsIdentifierSimilar_example" // String | This is an EXPERIMENTAL parameter that WILL CHANGE. Do NOT rely on consistent, deterministic behavior. THIS PARAMETER WILL BE REMOVED IN AN UPCOMING RELEASE WITHOUT ANY MIGRATION PATH.  CredentialsIdentifierSimilar is the (partial) identifier (username, email) of the credentials to look up using similarity search. Only one of CredentialsIdentifier and CredentialsIdentifierSimilar can be used. (optional)
+let includeCredential = ["inner_example"] // [String] | Include Credentials in Response  Include any credential, for example `password` or `oidc`, in the response. When set to `oidc`, This will return the initial OAuth 2.0 Access Token, OAuth 2.0 Refresh Token and the OpenID Connect ID Token if available. (optional)
 
 // List Identities
-IdentityAPI.listIdentities(perPage: perPage, page: page, credentialsIdentifier: credentialsIdentifier) { (response, error) in
+IdentityAPI.listIdentities(perPage: perPage, page: page, pageSize: pageSize, pageToken: pageToken, consistency: consistency, ids: ids, credentialsIdentifier: credentialsIdentifier, previewCredentialsIdentifierSimilar: previewCredentialsIdentifierSimilar, includeCredential: includeCredential) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -665,13 +675,19 @@ IdentityAPI.listIdentities(perPage: perPage, page: page, credentialsIdentifier: 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **perPage** | **Int64** | Items per Page  This is the number of items per page. | [optional] [default to 250]
- **page** | **Int64** | Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. | [optional] [default to 1]
- **credentialsIdentifier** | **String** | CredentialsIdentifier is the identifier (username, email) of the credentials to look up. | [optional] 
+ **perPage** | **Int64** | Deprecated Items per Page  DEPRECATED: Please use &#x60;page_token&#x60; instead. This parameter will be removed in the future.  This is the number of items per page. | [optional] [default to 250]
+ **page** | **Int64** | Deprecated Pagination Page  DEPRECATED: Please use &#x60;page_token&#x60; instead. This parameter will be removed in the future.  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. The first page can be retrieved by omitting this parameter. Following page pointers will be returned in the &#x60;Link&#x60; header. | [optional] 
+ **pageSize** | **Int64** | Page Size  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). | [optional] [default to 250]
+ **pageToken** | **String** | Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). | [optional] [default to &quot;1&quot;]
+ **consistency** | **String** | Read Consistency Level (preview)  The read consistency level determines the consistency guarantee for reads:  strong (slow): The read is guaranteed to return the most recent data committed at the start of the read. eventual (very fast): The result will return data that is about 4.8 seconds old.  The default consistency guarantee can be changed in the Ory Network Console or using the Ory CLI with &#x60;ory patch project --replace &#39;/previews/default_read_consistency_level&#x3D;\&quot;strong\&quot;&#39;&#x60;.  Setting the default consistency level to &#x60;eventual&#x60; may cause regressions in the future as we add consistency controls to more APIs. Currently, the following APIs will be affected by this setting:  &#x60;GET /admin/identities&#x60;  This feature is in preview and only available in Ory Network.  ConsistencyLevelUnset  ConsistencyLevelUnset is the unset / default consistency level. strong ConsistencyLevelStrong  ConsistencyLevelStrong is the strong consistency level. eventual ConsistencyLevelEventual  ConsistencyLevelEventual is the eventual consistency level using follower read timestamps. | [optional] 
+ **ids** | [**[String]**](String.md) | List of ids used to filter identities. If this list is empty, then no filter will be applied. | [optional] 
+ **credentialsIdentifier** | **String** | CredentialsIdentifier is the identifier (username, email) of the credentials to look up using exact match. Only one of CredentialsIdentifier and CredentialsIdentifierSimilar can be used. | [optional] 
+ **previewCredentialsIdentifierSimilar** | **String** | This is an EXPERIMENTAL parameter that WILL CHANGE. Do NOT rely on consistent, deterministic behavior. THIS PARAMETER WILL BE REMOVED IN AN UPCOMING RELEASE WITHOUT ANY MIGRATION PATH.  CredentialsIdentifierSimilar is the (partial) identifier (username, email) of the credentials to look up using similarity search. Only one of CredentialsIdentifier and CredentialsIdentifierSimilar can be used. | [optional] 
+ **includeCredential** | [**[String]**](String.md) | Include Credentials in Response  Include any credential, for example &#x60;password&#x60; or &#x60;oidc&#x60;, in the response. When set to &#x60;oidc&#x60;, This will return the initial OAuth 2.0 Access Token, OAuth 2.0 Refresh Token and the OpenID Connect ID Token if available. | [optional] 
 
 ### Return type
 
-[**[Identity]**](Identity.md)
+[**[OryIdentity]**](OryIdentity.md)
 
 ### Authorization
 
@@ -686,7 +702,7 @@ Name | Type | Description  | Notes
 
 # **listIdentitySchemas**
 ```swift
-    open class func listIdentitySchemas(perPage: Int64? = nil, page: Int64? = nil, completion: @escaping (_ data: [IdentitySchemaContainer]?, _ error: Error?) -> Void)
+    open class func listIdentitySchemas(perPage: Int64? = nil, page: Int64? = nil, pageSize: Int64? = nil, pageToken: String? = nil, completion: @escaping (_ data: [OryIdentitySchemaContainer]?, _ error: Error?) -> Void)
 ```
 
 Get all Identity Schemas
@@ -696,13 +712,15 @@ Returns a list of all identity schemas currently in use.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
-let perPage = 987 // Int64 | Items per Page  This is the number of items per page. (optional) (default to 250)
-let page = 987 // Int64 | Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. (optional) (default to 1)
+let perPage = 987 // Int64 | Deprecated Items per Page  DEPRECATED: Please use `page_token` instead. This parameter will be removed in the future.  This is the number of items per page. (optional) (default to 250)
+let page = 987 // Int64 | Deprecated Pagination Page  DEPRECATED: Please use `page_token` instead. This parameter will be removed in the future.  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. The first page can be retrieved by omitting this parameter. Following page pointers will be returned in the `Link` header. (optional)
+let pageSize = 987 // Int64 | Page Size  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional) (default to 250)
+let pageToken = "pageToken_example" // String | Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional) (default to "1")
 
 // Get all Identity Schemas
-IdentityAPI.listIdentitySchemas(perPage: perPage, page: page) { (response, error) in
+IdentityAPI.listIdentitySchemas(perPage: perPage, page: page, pageSize: pageSize, pageToken: pageToken) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -718,12 +736,14 @@ IdentityAPI.listIdentitySchemas(perPage: perPage, page: page) { (response, error
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **perPage** | **Int64** | Items per Page  This is the number of items per page. | [optional] [default to 250]
- **page** | **Int64** | Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. | [optional] [default to 1]
+ **perPage** | **Int64** | Deprecated Items per Page  DEPRECATED: Please use &#x60;page_token&#x60; instead. This parameter will be removed in the future.  This is the number of items per page. | [optional] [default to 250]
+ **page** | **Int64** | Deprecated Pagination Page  DEPRECATED: Please use &#x60;page_token&#x60; instead. This parameter will be removed in the future.  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. The first page can be retrieved by omitting this parameter. Following page pointers will be returned in the &#x60;Link&#x60; header. | [optional] 
+ **pageSize** | **Int64** | Page Size  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). | [optional] [default to 250]
+ **pageToken** | **String** | Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). | [optional] [default to &quot;1&quot;]
 
 ### Return type
 
-[**[IdentitySchemaContainer]**](IdentitySchemaContainer.md)
+[**[OryIdentitySchemaContainer]**](OryIdentitySchemaContainer.md)
 
 ### Authorization
 
@@ -738,7 +758,7 @@ No authorization required
 
 # **listIdentitySessions**
 ```swift
-    open class func listIdentitySessions(id: String, perPage: Int64? = nil, page: Int64? = nil, active: Bool? = nil, completion: @escaping (_ data: [Session]?, _ error: Error?) -> Void)
+    open class func listIdentitySessions(id: String, perPage: Int64? = nil, page: Int64? = nil, pageSize: Int64? = nil, pageToken: String? = nil, active: Bool? = nil, completion: @escaping (_ data: [OrySession]?, _ error: Error?) -> Void)
 ```
 
 List an Identity's Sessions
@@ -748,15 +768,17 @@ This endpoint returns all sessions that belong to the given Identity.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID is the identity's ID.
-let perPage = 987 // Int64 | Items per Page  This is the number of items per page. (optional) (default to 250)
-let page = 987 // Int64 | Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. (optional) (default to 1)
+let perPage = 987 // Int64 | Deprecated Items per Page  DEPRECATED: Please use `page_token` instead. This parameter will be removed in the future.  This is the number of items per page. (optional) (default to 250)
+let page = 987 // Int64 | Deprecated Pagination Page  DEPRECATED: Please use `page_token` instead. This parameter will be removed in the future.  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. The first page can be retrieved by omitting this parameter. Following page pointers will be returned in the `Link` header. (optional)
+let pageSize = 987 // Int64 | Page Size  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional) (default to 250)
+let pageToken = "pageToken_example" // String | Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional) (default to "1")
 let active = true // Bool | Active is a boolean flag that filters out sessions based on the state. If no value is provided, all sessions are returned. (optional)
 
 // List an Identity's Sessions
-IdentityAPI.listIdentitySessions(id: id, perPage: perPage, page: page, active: active) { (response, error) in
+IdentityAPI.listIdentitySessions(id: id, perPage: perPage, page: page, pageSize: pageSize, pageToken: pageToken, active: active) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -773,13 +795,15 @@ IdentityAPI.listIdentitySessions(id: id, perPage: perPage, page: page, active: a
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **String** | ID is the identity&#39;s ID. | 
- **perPage** | **Int64** | Items per Page  This is the number of items per page. | [optional] [default to 250]
- **page** | **Int64** | Pagination Page  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. | [optional] [default to 1]
+ **perPage** | **Int64** | Deprecated Items per Page  DEPRECATED: Please use &#x60;page_token&#x60; instead. This parameter will be removed in the future.  This is the number of items per page. | [optional] [default to 250]
+ **page** | **Int64** | Deprecated Pagination Page  DEPRECATED: Please use &#x60;page_token&#x60; instead. This parameter will be removed in the future.  This value is currently an integer, but it is not sequential. The value is not the page number, but a reference. The next page can be any number and some numbers might return an empty list.  For example, page 2 might not follow after page 1. And even if page 3 and 5 exist, but page 4 might not exist. The first page can be retrieved by omitting this parameter. Following page pointers will be returned in the &#x60;Link&#x60; header. | [optional] 
+ **pageSize** | **Int64** | Page Size  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). | [optional] [default to 250]
+ **pageToken** | **String** | Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). | [optional] [default to &quot;1&quot;]
  **active** | **Bool** | Active is a boolean flag that filters out sessions based on the state. If no value is provided, all sessions are returned. | [optional] 
 
 ### Return type
 
-[**[Session]**](Session.md)
+[**[OrySession]**](OrySession.md)
 
 ### Authorization
 
@@ -794,7 +818,7 @@ Name | Type | Description  | Notes
 
 # **listSessions**
 ```swift
-    open class func listSessions(pageSize: Int64? = nil, pageToken: String? = nil, active: Bool? = nil, expand: [Expand_listSessions]? = nil, completion: @escaping (_ data: [Session]?, _ error: Error?) -> Void)
+    open class func listSessions(pageSize: Int64? = nil, pageToken: String? = nil, active: Bool? = nil, expand: [OryExpand_listSessions]? = nil, completion: @escaping (_ data: [OrySession]?, _ error: Error?) -> Void)
 ```
 
 List All Sessions
@@ -804,12 +828,12 @@ Listing all sessions that exist.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let pageSize = 987 // Int64 | Items per Page  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional) (default to 250)
 let pageToken = "pageToken_example" // String | Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination). (optional)
 let active = true // Bool | Active is a boolean flag that filters out sessions based on the state. If no value is provided, all sessions are returned. (optional)
-let expand = ["inner_example"] // [String] | ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. If no value is provided, the expandable properties are skipped. (optional)
+let expand = ["expand_example"] // [String] | ExpandOptions is a query parameter encoded list of all properties that must be expanded in the Session. If no value is provided, the expandable properties are skipped. (optional)
 
 // List All Sessions
 IdentityAPI.listSessions(pageSize: pageSize, pageToken: pageToken, active: active, expand: expand) { (response, error) in
@@ -835,7 +859,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[Session]**](Session.md)
+[**[OrySession]**](OrySession.md)
 
 ### Authorization
 
@@ -850,7 +874,7 @@ Name | Type | Description  | Notes
 
 # **patchIdentity**
 ```swift
-    open class func patchIdentity(id: String, jsonPatch: [JsonPatch]? = nil, completion: @escaping (_ data: Identity?, _ error: Error?) -> Void)
+    open class func patchIdentity(id: String, oryJsonPatch: [OryJsonPatch]? = nil, completion: @escaping (_ data: OryIdentity?, _ error: Error?) -> Void)
 ```
 
 Patch an Identity
@@ -860,13 +884,13 @@ Partially updates an [identity's](https://www.ory.sh/docs/kratos/concepts/identi
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID must be set to the ID of identity you want to update
-let jsonPatch = [jsonPatch(from: "from_example", op: "op_example", path: "path_example", value: 123)] // [JsonPatch] |  (optional)
+let oryJsonPatch = [jsonPatch(from: "from_example", op: "op_example", path: "path_example", value: 123)] // [OryJsonPatch] |  (optional)
 
 // Patch an Identity
-IdentityAPI.patchIdentity(id: id, jsonPatch: jsonPatch) { (response, error) in
+IdentityAPI.patchIdentity(id: id, oryJsonPatch: oryJsonPatch) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -883,11 +907,11 @@ IdentityAPI.patchIdentity(id: id, jsonPatch: jsonPatch) { (response, error) in
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **String** | ID must be set to the ID of identity you want to update | 
- **jsonPatch** | [**[JsonPatch]**](JsonPatch.md) |  | [optional] 
+ **oryJsonPatch** | [**[OryJsonPatch]**](OryJsonPatch.md) |  | [optional] 
 
 ### Return type
 
-[**Identity**](Identity.md)
+[**OryIdentity**](OryIdentity.md)
 
 ### Authorization
 
@@ -902,7 +926,7 @@ Name | Type | Description  | Notes
 
 # **updateIdentity**
 ```swift
-    open class func updateIdentity(id: String, updateIdentityBody: UpdateIdentityBody? = nil, completion: @escaping (_ data: Identity?, _ error: Error?) -> Void)
+    open class func updateIdentity(id: String, oryUpdateIdentityBody: OryUpdateIdentityBody? = nil, completion: @escaping (_ data: OryIdentity?, _ error: Error?) -> Void)
 ```
 
 Update an Identity
@@ -912,13 +936,13 @@ This endpoint updates an [identity](https://www.ory.sh/docs/kratos/concepts/iden
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import OryKratosSwift
 
 let id = "id_example" // String | ID must be set to the ID of identity you want to update
-let updateIdentityBody = updateIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example"), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: 123, metadataPublic: 123, schemaId: "schemaId_example", state: identityState(), traits: 123) // UpdateIdentityBody |  (optional)
+let oryUpdateIdentityBody = updateIdentityBody(credentials: identityWithCredentials(oidc: identityWithCredentialsOidc(config: identityWithCredentialsOidcConfig(config: identityWithCredentialsPasswordConfig(hashedPassword: "hashedPassword_example", password: "password_example", usePasswordMigrationHook: false), providers: [identityWithCredentialsOidcConfigProvider(provider: "provider_example", subject: "subject_example")])), password: identityWithCredentialsPassword(config: nil)), metadataAdmin: 123, metadataPublic: 123, schemaId: "schemaId_example", state: "state_example", traits: 123) // OryUpdateIdentityBody |  (optional)
 
 // Update an Identity
-IdentityAPI.updateIdentity(id: id, updateIdentityBody: updateIdentityBody) { (response, error) in
+IdentityAPI.updateIdentity(id: id, oryUpdateIdentityBody: oryUpdateIdentityBody) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -935,11 +959,11 @@ IdentityAPI.updateIdentity(id: id, updateIdentityBody: updateIdentityBody) { (re
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **String** | ID must be set to the ID of identity you want to update | 
- **updateIdentityBody** | [**UpdateIdentityBody**](UpdateIdentityBody.md) |  | [optional] 
+ **oryUpdateIdentityBody** | [**OryUpdateIdentityBody**](OryUpdateIdentityBody.md) |  | [optional] 
 
 ### Return type
 
-[**Identity**](Identity.md)
+[**OryIdentity**](OryIdentity.md)
 
 ### Authorization
 
